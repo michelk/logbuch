@@ -1,0 +1,215 @@
+#!/usr/bin/Rscript
+#================================================================================
+# File:        summarizeWorkHours    
+# Created:     2011-10-05
+# Last Change: Thursday, 2011-12-15
+# Description: program to summarize work hours
+# Usage:       summarize -[w|-week <dir>] -[m|-month <dir>] -[y|-year <dir>]
+# ToDo:        write method
+# Bugs:        sofern pro tag nur an einem Projekt gearbeitet wurde, werden die
+#              Topics nicht richtig dargestellt (readDay).
+# Author:      Michel Kuhlmann (kum), <kum@tkconsult.ch>
+# Institution: TK Consult
+# Licence:     GNU General Public Licence 
+#================================================================================
+library('getopt')
+opt_spec <- matrix(c(
+                'help',     'h', 0, "logical",     "Getting help",
+                'week',     'w', 0, "character", 
+                    "Directoy of week to summarize",
+                'month',     'm', 0, "character", 
+                    "Directoy of month to summarize",
+                'year',     'y', 0, "character", 
+                    "Directoy of month to summarize"
+                ), ncol = 5, byrow = TRUE)
+opt <- getopt(spec = opt_spec)
+if ( !is.null(opt$help) || is.null(commandArgs()) )   {    
+    cat(getopt(spec = opt_spec, usage = TRUE, command = "summarizeWorkHours"))
+    q(status=0)
+}
+# Development & Debugging, don't forget to uncomment afterwards!
+#--------------------------------------------------------------------------------
+#setwd("~/Projekte/logbuch")
+#opt <- list(week = "2011/11/47",
+#            month = "2011/11",
+#            year = "2011"
+#            )
+#--------------------------------------------------------------------------------
+
+#===============================================================================
+# Parameters
+#===============================================================================
+kSummryFileName <- "Summary.txt"
+kTotalFileName <- "Total.txt"
+kTsFileName <- "TS.txt"
+kTsPdfName <- "TS.pdf"
+kProjPdfName <- "Projects.pdf"
+kWeekHoursToWork <- 34
+
+require("logbuch", quietly = TRUE)
+
+#===============================================================================
+# Program
+#===============================================================================
+if ( !is.null(opt$week) ) {  
+
+    log_files <- list.files(path = opt$week, pattern = "*.wdlog")
+    
+
+    #-------------------------------------------------------------------------------
+    # Process wdlog files
+    #-------------------------------------------------------------------------------
+    # Generate Week workday objects
+    workdays_list <-
+        workdays(wd = lapply(log_files, 
+                             function(x){ 
+                                 readDayFile(x = paste(opt$week, x, sep = "/"))
+                             }
+                    ), week = as.numeric(basename(opt$week)))
+    week <- calcWorkHours(workdays_list)
+    # Generate week data frame
+    week_df <- as.data.frame(workdays_list)
+
+    #-------------------------------------------------------------------------------
+    # Write data to files
+    #-------------------------------------------------------------------------------
+    write.table(data.frame(projects = week@topics, 
+                           hours = round(week@hours, 
+                                         digits = 2)), 
+                file = paste(opt$week, kSummryFileName, sep = "/"), 
+                quote = FALSE, sep = "\t\t", row.names = FALSE)
+    cat("Total : ", round(sum(week@hours), digits = 2), "\n", 
+        file = paste(opt$week, kSummryFileName, sep = "/"))
+    write.table(week_df,
+                file = paste(opt$week, kTsFileName, sep = "/"), 
+                quote = FALSE, sep = "\t\t", row.names = FALSE)
+    #-------------------------------------------------------------------------------
+    # plot summary graphics
+    #-------------------------------------------------------------------------------
+    pdf(file = paste(opt$week, kTsPdfName, sep = "/"))
+    barplot(t(as.matrix(week_df)), legend.text = names(week_df))
+    dev.off()
+}
+
+if ( !is.null(opt$month) ) {  
+    log_files <- list.files(path = opt$month, pattern = "*.wdlog", 
+                            recursive = TRUE)
+
+    weeks <- basename(list.dirs(opt$month)[-1])
+    #-----------------------------------------------------------------------------
+    # Process wdlog files
+    #-----------------------------------------------------------------------------
+    # Generate Week workday objects
+    workdays_list <-
+        workdays(wd = lapply(log_files, 
+                             function(x){ 
+                                 readDayFile(x = paste(opt$month, x, sep = "/"))
+                             }
+                       ),
+                 week = as.numeric(weeks))
+    month <- calcWorkHours(workdays_list)
+    # Generate week data frame
+    month_df <- as.data.frame(workdays_list)
+
+    total_hours <- round(sum(month@hours))
+    #-------------------------------------------------------------------------------
+    # Write data to files
+    #-------------------------------------------------------------------------------
+    write.table(data.frame(projects = month@topics, 
+                           hours = round(month@hours, 
+                                         digits = 2)), 
+                file = paste(opt$month, kSummryFileName, sep = "/"), 
+                quote = FALSE, sep = "\t\t", row.names = FALSE)
+    cat("Total : ", total_hours, "\n", 
+        file = paste(opt$month, kSummryFileName, sep = "/"))
+    write.table(month_df,
+                file = paste(opt$month, kTsFileName, sep = "/"), 
+                quote = FALSE, sep = "\t\t", row.names = FALSE)
+
+    #-------------------------------------------------------------------------------
+    # plot summary graphics
+    #-------------------------------------------------------------------------------
+    # Time series
+    pdf(file = paste(opt$month, kTsPdfName, sep = "/"))
+    barplot(t(as.matrix(month_df)), legend.text = names(month_df))
+    dev.off()
+    # Projects
+    pdf(file = paste(opt$month, kProjPdfName, sep = "/"))
+    barplot(colSums(month_df))
+    text(x = ncol(month_df), 
+         y = max(colSums(month_df)) - 0.1 *max(colSums(month_df)) , 
+         labels = paste("Gesamtstunden : ", total_hours))
+    dev.off()
+}
+
+if ( !is.null(opt$year) ) {  
+    log_files <- list.files(path = opt$year, pattern = "*.wdlog", 
+                            recursive = TRUE)
+    weeks <- as.numeric(sub("/.*", "", sub("[01]?[0-9]/", "", log_files)))
+    workdays_list <-
+        workdays(wd = lapply(log_files, 
+                             function(x){ 
+                                 readDayFile(x = paste(opt$year, x, sep = "/"))
+                             }
+                       ),
+                 week = weeks)
+    year <- calcWorkHours(workdays_list)
+    # Generate week data frame
+    year_df <- as.data.frame(workdays_list)
+    weeks <- as.factor(weeks)
+    year_tmp_df <- cbind(year_df, weeks)
+    year_plot_df <- matrix(0, 
+                           ncol = length(names(year_df)), 
+                           nrow = length(levels(weeks)),
+                           dimnames = list(levels(weeks), names(year_df)))
+
+    for ( i in seq(along = levels(weeks)) ) {
+        week_sum <- subset(x = year_tmp_df, 
+                           subset = year_tmp_df$weeks == levels(weeks)[i])
+        week_sum <- colSums(week_sum[,-length(names(week_sum))])
+        year_plot_df[levels(weeks)[i], ] <- week_sum
+    }
+    
+    total_hours <- round(sum(year@hours))
+
+    #-------------------------------------------------------------------------------
+    # Write data to files
+    #-------------------------------------------------------------------------------
+    write.table(data.frame(projects = year@topics, 
+                           hours = round(year@hours, 
+                                         digits = 2)), 
+                file = paste(opt$year, kSummryFileName, sep = "/"), 
+                quote = FALSE, sep = "\t\t", row.names = FALSE)
+    cat("Total : ", total_hours, "\n", 
+        file = paste(opt$year, kSummryFileName, sep = "/"))
+    write.table(year_df,
+                file = paste(opt$year, kTsFileName, sep = "/"), 
+                quote = FALSE, sep = "\t\t", row.names = FALSE)
+
+    #-------------------------------------------------------------------------------
+    # plot summary graphics
+    #-------------------------------------------------------------------------------
+    # Time series
+    pdf(file = paste(opt$year, kTsPdfName, sep = "/"), paper = "a4r")
+    barplot(t(year_plot_df), 
+            ylim = c(0, 45),
+            main = "Wöchentliche Arbeitsstunden; M.Kuhlmann",
+            #col = gray(1:length(colnames(year_plot_df))/length(colnames(year_plot_df)))
+            col = 1:length(colnames(year_plot_df))
+            )
+    legend("topright", legend = colnames(year_plot_df), ncol = 2, bg = "white", 
+           #fill = gray(1:length(colnames(year_plot_df))/length(colnames(year_plot_df)))
+           fill = 1:length(colnames(year_plot_df))
+    )
+    abline(h = kWeekHoursToWork, col = "red")
+    dev.off()
+    # Projects
+    pdf(file = paste(opt$year, kProjPdfName, sep = "/"), paper = "a4r")
+    barplot(colSums(year_df))
+    text(x = ncol(year_df), 
+         y = max(colSums(year_df)) - 0.1 *max(colSums(year_df)) , 
+         labels = paste("Gesamtstunden : ", total_hours))
+    dev.off()
+}
+# End of File ===================================================================
+# vim: set ft=r:

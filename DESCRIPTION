@@ -1,0 +1,10 @@
+Package: logbuch
+Type: Package
+Title: Package for handling workday log record files
+Version: 1.0
+Date: 2011-10-10
+Author: Michel Kuhlmann
+Maintainer: Michel Kuhlmann <kum@tkconsult.ch>
+Description: Package for handling workday log record files
+License: GPL
+LazyLoad: yes

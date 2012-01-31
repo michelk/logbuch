@@ -1,0 +1,14 @@
+#================================================================================
+# File:        configure    
+# Created:     2012-01-17
+# Last Change: Friday, 2012-01-27
+# Description: initializing script for the R-package basement
+# Author:      Michel Kuhlmann (kum), <kum@tkconsult.ch>
+# Institution: TK Consult AG
+# Copyright:   GNU General Public Licence 
+#================================================================================
+for file in exec/*; do
+    cp $file /usr/local/bin/
+done
+# End of File ===================================================================
+# vim: set ft=sh:
