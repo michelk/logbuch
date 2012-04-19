@@ -23,7 +23,7 @@ function(wd_list){
     
     value <- new("workweek", topics = week_topics, 
                  hours = workweek_df[,2], 
-                 week = wd_list@week)
+                 )
     return(value)
 }
 

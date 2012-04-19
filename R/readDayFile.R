@@ -33,7 +33,7 @@ function(x){
         names(value_df) <- day_df[1,1]
     } else {
         index <- 
-            sapply(projects,
+            lapply(projects,
                    function(x){
                        index <- which(day_df[,1] == x)
                    })
@@ -42,7 +42,9 @@ function(x){
                                  function(x){
                                      sum(day_df[x,2])
                                  }
-        ))
+                          )
+           )
+        names(value_df) <- projects
     }
     return(
            new("workday", 

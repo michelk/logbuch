@@ -2,7 +2,7 @@
 #================================================================================
 # File:        summarizeWorkHours    
 # Created:     2011-10-05
-# Last Change: Thursday, 2011-12-15
+# Last Change: Thursday, 2012-04-19
 # Description: program to summarize work hours
 # Usage:       summarize -[w|-week <dir>] -[m|-month <dir>] -[y|-year <dir>]
 # ToDo:        write method
@@ -30,9 +30,9 @@ if ( !is.null(opt$help) || is.null(commandArgs()) )   {
 # Development & Debugging, don't forget to uncomment afterwards!
 #--------------------------------------------------------------------------------
 #setwd("~/Projekte/logbuch")
-#opt <- list(week = "2011/11/47",
-#            month = "2011/11",
-#            year = "2011"
+#opt <- list(week = "2012/04/16",
+#            month = "2012/04",
+#            year = "2012"
 #            )
 #--------------------------------------------------------------------------------
 
@@ -47,10 +47,42 @@ kProjPdfName <- "Projects.pdf"
 kWeekHoursToWork <- 34
 
 require("logbuch", quietly = TRUE)
+require("ggplot2", quietly = TRUE)
+
 
 #===============================================================================
 # Program
 #===============================================================================
+#- get log files
+#- get workday list depending on deliverd files
+#- generate  a data-frame out of days
+#- summarize
+#- plot
+#summarizeWdFiles <- 
+#    function       # summarize workdays
+#(
+#    xs             # vector with workday-files
+#)
+#{
+#
+#}
+#summarize_functions <- 
+#    list(
+#         'week' = function()
+#         {
+#         }
+#        ,'month' = 
+#        , 'year' = 
+#         )
+#lapply(names(opt)
+#     , function(x) 
+#     {
+#         sumDur <-  # function to summarize duration
+#             summarize_functions[[x]]
+#         wd_dur <-  # data-frame describing workday duration
+#             umDur(opt[[x]]) 
+#     }
+#)
 if ( !is.null(opt$week) ) {  
 
     log_files <- list.files(path = opt$week, pattern = "*.wdlog")
