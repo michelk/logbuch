@@ -1,11 +1,15 @@
 Package: logbuch
 Type: Package
-Title: Package for handling workday log record files
+Title: Summarize workday log-files
 Version: 1.0
 Date: 2011-10-10
 Author: Michel Kuhlmann
-Maintainer: Michel Kuhlmann <kum@tkconsult.ch>
-Description: Package for handling workday log record files
-Depends : ggplot2
+Maintainer: Michel Kuhlmann <michel@kuhlmanns.info>
+Description: This package helps to summarize work-day record-files. 
+   Given a set of workday-record-files, the executable, `summarizeWorkHours`, --
+   shipped within this package -- summarizes your work-time and projects-time.
+   You have to have fixed directory structure. The program then creates a
+   couple of plots and summaries, which describe your work-time.
+Imports: ggplot2
 License: GPL
 LazyLoad: yes

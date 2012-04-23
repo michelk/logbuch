@@ -1,5 +1,5 @@
 setMethod("as.data.frame",
-    signature(x = "workdays"),
+    signature(x = "Workdays"),
     function (x, row.names = NULL, optional = FALSE, ...) 
     {
         ##' @brief

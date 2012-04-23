@@ -2,7 +2,7 @@
 #================================================================================
 # File:        summarizeWorkHours    
 # Created:     2011-10-05
-# Last Change: Thursday, 2012-04-19
+# Last Change: Monday, 2012-04-23
 # Description: program to summarize work hours
 # Usage:       summarize -[w|-week <dir>] -[m|-month <dir>] -[y|-year <dir>]
 # ToDo:        write method
@@ -23,9 +23,18 @@ opt_spec <- matrix(c(
                     "Directoy of month to summarize"
                 ), ncol = 5, byrow = TRUE)
 opt <- getopt(spec = opt_spec)
+
 if ( !is.null(opt$help) || is.null(commandArgs()) )   {    
     cat(getopt(spec = opt_spec, usage = TRUE, command = "summarizeWorkHours"))
     q(status=0)
+}
+if ( all(sapply(opt, function(x) is.null(x))) ) {  
+    opt <- 
+        list(
+             week = paste()
+             month = 
+             year = 
+             )
 }
 # Development & Debugging, don't forget to uncomment afterwards!
 #--------------------------------------------------------------------------------
@@ -58,22 +67,39 @@ require("ggplot2", quietly = TRUE)
 #- generate  a data-frame out of days
 #- summarize
 #- plot
-#summarizeWdFiles <- 
-#    function       # summarize workdays
-#(
-#    xs             # vector with workday-files
-#)
-#{
-#
-#}
-#summarize_functions <- 
-#    list(
-#         'week' = function()
-#         {
-#         }
-#        ,'month' = 
-#        , 'year' = 
-#         )
+summarizeWdFiles <- 
+    function       # summarize workdays
+(
+    xs             # vector with workday-files
+)
+{
+    # ToDo: validity check to find log_files
+    workdays.list <- # list with workdays
+        Workdays(wd = 
+                 lapply(xs, 
+                        function(x){ 
+                            readDayFile(x)
+                        }
+                   ), week = as.numeric(basename(opt$week)))
+
+    # Generate week data frame
+    as.data.frame(workdays.list)
+    ### Returns a data-frame with summed workhours per project and day
+}
+list.wdfiles <- 
+    function(path) 
+        list.files(path = path, pattern = "*.wdlog", full.names = TRUE)
+summarize_functions <- 
+    list(
+         'week' = function(wd_dir)
+         {
+             log_files <-   # list with workdays-log-files 
+                 list.wdfiles(wd_dir)
+             workdays.summed <- summarizeWdFiles(log_files)
+         }
+        ,'month' = 
+        , 'year' = 
+         )
 #lapply(names(opt)
 #     , function(x) 
 #     {
@@ -84,8 +110,11 @@ require("ggplot2", quietly = TRUE)
 #     }
 #)
 if ( !is.null(opt$week) ) {  
-
-    log_files <- list.files(path = opt$week, pattern = "*.wdlog")
+    log_files <-   # 
+        list.files(path = opt$week, 
+                   pattern = "*.wdlog", 
+                   full.names = TRUE
+        )
     
 
     #-------------------------------------------------------------------------------
@@ -93,7 +122,7 @@ if ( !is.null(opt$week) ) {
     #-------------------------------------------------------------------------------
     # Generate Week workday objects
     workdays_list <-
-        workdays(wd = lapply(log_files, 
+        Workdays(wd = lapply(log_files, 
                              function(x){ 
                                  readDayFile(x = paste(opt$week, x, sep = "/"))
                              }
@@ -133,7 +162,7 @@ if ( !is.null(opt$month) ) {
     #-----------------------------------------------------------------------------
     # Generate Week workday objects
     workdays_list <-
-        workdays(wd = lapply(log_files, 
+        Workdays(wd = lapply(log_files, 
                              function(x){ 
                                  readDayFile(x = paste(opt$month, x, sep = "/"))
                              }
@@ -179,7 +208,7 @@ if ( !is.null(opt$year) ) {
                             recursive = TRUE)
     weeks <- as.numeric(sub("/.*", "", sub("[01]?[0-9]/", "", log_files)))
     workdays_list <-
-        workdays(wd = lapply(log_files, 
+        Workdays(wd = lapply(log_files, 
                              function(x){ 
                                  readDayFile(x = paste(opt$year, x, sep = "/"))
                              }

@@ -1,0 +1,3 @@
+[submodule "inst/doc"]
+	path = inst/doc
+	url = tkc@87.106.41.91:Repositories/pkgs/R/logbuch-doc.git/

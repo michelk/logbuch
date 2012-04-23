@@ -1,13 +1,27 @@
-setClass("workday", representation(topic = "character", hours = "numeric", 
-                                   date = "POSIXct"))
-setClass("workdays", representation(wd = "list", week = "numeric"))
-workdays <- function(wd, week){
+setClass("Workday", 
+         representation(topic = "character"
+                      , hours = "numeric"
+                      , date = "POSIXct"
+         )
+)
+setClass("Workdays", 
+         representation(wd = "list")
+)
+
+Workdays <- 
+    function
+(
+    wd             # list with workdays
+)
+{
     library("methods")
-    value <- 
-        new("workdays", 
-            wd = wd,
-            week = week)
-    return(value)
+    new("Workdays", 
+        wd = wd,
+        )
 }
-setClass("workweek", representation(topics = "character", hours = "numeric", 
-                                    week = "numeric"))
+setClass("Workweek", 
+         representation(topics = "character"
+                      , hours = "numeric"
+                      , week = "numeric"
+         )
+)

@@ -47,7 +47,7 @@ function(x){
         names(value_df) <- projects
     }
     return(
-           new("workday", 
+           new("Workday", 
                topic = names(value_df), 
                hours = as.vector(as.matrix(value_df[1,])), 
                date = as.POSIXct(day, format = "%Y-%m-%d"))

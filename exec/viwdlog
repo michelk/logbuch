@@ -1,0 +1,29 @@
+#!/bin/bash
+
+[ -z ${WDLOG_DIR} ] && 
+{
+    echo "Variable WDLOG_DIR not set in .{zsh,bash}rc" 1>&2
+    exit 1
+}
+
+[ -z ${EDITOR} ] && 
+{
+    echo "EDITOR variable not set" 1>&2
+    exit 1
+}
+
+    
+day_log_file=${WDLOG_DIR}/$(date +%Y)/$(date +%m)/$(date +%V)/$(date +%F).wdlog
+
+
+if [[ ! -e ${day_log_file}  ]]; then
+cat << EOF > ${day_log_file}
+Date : $(date +%A), $(date +%d), $(date +%B), $(date +%Y)
+07.40 - 10.00 : Undefined : Topic
+10.00 - 12.00 : Undefined : Topic
+13.00 - 15.00 : Undefined : Topic
+15.00 - 17.00 : Undefined : Topic
+EOF
+fi
+
+$EDITOR ${day_log_file}
