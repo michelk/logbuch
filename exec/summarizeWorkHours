@@ -2,119 +2,69 @@
 #================================================================================
 # File:        summarizeWorkHours    
 # Created:     2011-10-05
-# Last Change: Monday, 2012-04-23
+# Last Change: Wednesday, 2012-05-02
 # Description: program to summarize work hours
 # Usage:       summarize -[w|-week <dir>] -[m|-month <dir>] -[y|-year <dir>]
 # ToDo:        write method
-# Bugs:        sofern pro tag nur an einem Projekt gearbeitet wurde, werden die
-#              Topics nicht richtig dargestellt (readDay).
-# Author:      Michel Kuhlmann (kum), <kum@tkconsult.ch>
+# Bugs:        
+#             
+# Author:      Michel Kuhlmann, <michel@kuhlmanns.info>
 # Institution: TK Consult
 # Licence:     GNU General Public Licence 
 #================================================================================
-library('getopt')
-opt_spec <- matrix(c(
-                'help',     'h', 0, "logical",     "Getting help",
-                'week',     'w', 0, "character", 
-                    "Directoy of week to summarize",
-                'month',     'm', 0, "character", 
-                    "Directoy of month to summarize",
-                'year',     'y', 0, "character", 
-                    "Directoy of month to summarize"
-                ), ncol = 5, byrow = TRUE)
-opt <- getopt(spec = opt_spec)
 
-if ( !is.null(opt$help) || is.null(commandArgs()) )   {    
-    cat(getopt(spec = opt_spec, usage = TRUE, command = "summarizeWorkHours"))
-    q(status=0)
-}
-if ( all(sapply(opt, function(x) is.null(x))) ) {  
-    opt <- 
-        list(
-             week = paste()
-             month = 
-             year = 
-             )
-}
-# Development & Debugging, don't forget to uncomment afterwards!
-#--------------------------------------------------------------------------------
-#setwd("~/Projekte/logbuch")
+require("logbuch", quietly = TRUE)
+require('ggplot2', quietly = TRUE)
+suppressMessages(require('reshape', quietly = TRUE))
+
+opt <- procCli(commandArgs(TRUE))
+
+#setwd("~/Projekte/logbuch")    # Development
 #opt <- list(week = "2012/04/16",
 #            month = "2012/04",
 #            year = "2012"
 #            )
-#--------------------------------------------------------------------------------
-
-#===============================================================================
-# Parameters
-#===============================================================================
-kSummryFileName <- "Summary.txt"
-kTotalFileName <- "Total.txt"
-kTsFileName <- "TS.txt"
-kTsPdfName <- "TS.pdf"
-kProjPdfName <- "Projects.pdf"
-kWeekHoursToWork <- 34
-
-require("logbuch", quietly = TRUE)
-require("ggplot2", quietly = TRUE)
 
 
-#===============================================================================
-# Program
-#===============================================================================
-#- get log files
-#- get workday list depending on deliverd files
-#- generate  a data-frame out of days
-#- summarize
-#- plot
-summarizeWdFiles <- 
-    function       # summarize workdays
-(
-    xs             # vector with workday-files
-)
-{
-    # ToDo: validity check to find log_files
-    workdays.list <- # list with workdays
-        Workdays(wd = 
-                 lapply(xs, 
-                        function(x){ 
-                            readDayFile(x)
-                        }
-                   ), week = as.numeric(basename(opt$week)))
-
-    # Generate week data frame
-    as.data.frame(workdays.list)
-    ### Returns a data-frame with summed workhours per project and day
-}
-list.wdfiles <- 
-    function(path) 
-        list.files(path = path, pattern = "*.wdlog", full.names = TRUE)
-summarize_functions <- 
+out_file_names <- 
     list(
-         'week' = function(wd_dir)
-         {
-             log_files <-   # list with workdays-log-files 
-                 list.wdfiles(wd_dir)
-             workdays.summed <- summarizeWdFiles(log_files)
-         }
-        ,'month' = 
-        , 'year' = 
+         'ts' = kTsPdfName
+        ,'project' = kProjPdfName
+    )
+hours_to_work <- 
+    list(
+         'week' =  # hours to work per day
+            kWeekHoursToWork/kWeekDaysPerWeek
+       , 'month' =  #  hours to work per day
+            kWeekHoursToWork/kWeekDaysPerWeek
+       , 'year' = kWeekHoursToWork
+       
+ )
+exit_st <-
+lapply(names(opt)
+     , function(x) 
+     {
+         log_files <-        # recursive list with workdays-log-files 
+             list.wdfiles(opt[[x]])
+         workdays.summed <-  # workhours per project and day (data-frame)
+             summarizeWdFiles(log_files)
+         out.dfs <-          # list of two data-frames: time-series and project
+             summarizeTus(workdays.summed, tu = x, hours_to_work[[x]])
+         lapply(names(out.dfs)
+              , function(y)
+              {
+                  p <- plot(out.dfs[[y]])
+                  ggsave(p, filename = paste(opt[[x]] , out_file_names[[y]] 
+                                           , sep = "/" ) )
+              }
          )
-#lapply(names(opt)
-#     , function(x) 
-#     {
-#         sumDur <-  # function to summarize duration
-#             summarize_functions[[x]]
-#         wd_dur <-  # data-frame describing workday duration
-#             umDur(opt[[x]]) 
-#     }
-#)
+     }
+)
+
+q(status = 0)
+
 if ( !is.null(opt$week) ) {  
-    log_files <-   # 
-        list.files(path = opt$week, 
-                   pattern = "*.wdlog", 
-                   full.names = TRUE
-        )
+    log_files <- list.wdfiles(opt$week)
     
 
     #-------------------------------------------------------------------------------
