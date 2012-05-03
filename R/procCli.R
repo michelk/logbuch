@@ -27,6 +27,7 @@ procCli <-
                , year = strftime(Sys.Date(), format = "%Y")
                  )
     }
+    opt$ARGS <- NULL
     opt            # Alist with command-line arguments
     ### Returns a named list with given command-line arguments
 }

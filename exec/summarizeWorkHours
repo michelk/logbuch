@@ -2,7 +2,7 @@
 #================================================================================
 # File:        summarizeWorkHours    
 # Created:     2011-10-05
-# Last Change: Wednesday, 2012-05-02
+# Last Change: Thursday, 2012-05-03
 # Description: program to summarize work hours
 # Usage:       summarize -[w|-week <dir>] -[m|-month <dir>] -[y|-year <dir>]
 # ToDo:        write method
@@ -55,7 +55,9 @@ lapply(names(opt)
               {
                   p <- plot(out.dfs[[y]])
                   ggsave(p, filename = paste(opt[[x]] , out_file_names[[y]] 
-                                           , sep = "/" ) )
+                                           , sep = "/" ) 
+                       , width = 12, height = 8.5
+                  )
               }
          )
      }

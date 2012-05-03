@@ -65,7 +65,7 @@ summarizeTus <-
                           , hours_to_work = hours_to_work
                           )
                    , 'project' = 
-                        new('WorkPeriodMonthTs'
+                        new('WorkPeriodMonthPt'
                           , from_to = as.character(rownames(ts.df)[c(1, 
                                                                      nrow(ts.df))]) 
                           , plot_df = plot.df.pt
@@ -93,8 +93,8 @@ summarizeTus <-
                        , plot_df = plot.df
                        , hours_to_work = hours_to_work
                          )
-                 list('ts' = new("WorkPeriodWeekTs", wp)
-                    , 'project' = new("WorkPeriodWeekPt", wp)
+                 list('ts' = new("WorkPeriodYearTs", wp)
+                    , 'project' = new("WorkPeriodYearPt", wp)
                  )
             }
     
