@@ -35,6 +35,7 @@ The following convenction is used
     │   │   │   ├── <date>.wdlog
 
 eg: 
+
     .
     ├── 2011
     │   ├── 10
@@ -54,7 +55,7 @@ the path to the current (today) workday-diary-file.
 
 Using `viwdlog`
 ---------------
-For `vim` there is wrapper program, `viwdlog`,  shipped with the package. Then
+For `vim` there is a wrapper program, `viwdlog`,  shipped with the package. Then
 you have to add an entry  to your shellrc file (eg. ${HOME}/.bashrc or
 ${HOME}/.zshrc) with `export WDLOG_DIR=path/to/your/logbuch/dir`.
 
@@ -78,6 +79,10 @@ Put the follwing line in your `.screenrc`
 
 # Using `tmux` 
 -------------
+Put the follwing lines in your `.tmux.conf`
+    
+    unbind l
+    bind-key l new-window "viwdlog"
 
 
 Format of workday-log-files
