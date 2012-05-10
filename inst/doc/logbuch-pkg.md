@@ -2,19 +2,19 @@
 % Michel Kuhlmann, <michel@kuhlmanns.info>
 % April 2012 
 
-Description
-===========
+# Description
+
 Given a set of workday-record-files, the executable, `summarizeWorkHours`, --
 shipped within this package -- summarizes your work-time and projects-time.
 You have to have fixed directory structure. The program then creates a
 couple of plots and summaries, which describe your work-time.
 
-Installation
-============
+# Installation
+
 Currently the program is only tested on linux; if you use windows, it is most likely that you need Cygwin; the executables is copied to /usr/local/bin
 
-R-package
----------
+## R-package
+
 
     R> install.packages('devtools')
     R> require('devtools')
@@ -46,15 +46,15 @@ eg:
     │   │   │   ├── 2011-10-06.wdlog
 
 
-Editing workday-log-files
-=========================
+# Editing workday-log-files
+
 
 The easiest thing is to have a shortcut on the `edit ${day-log-file}`, where
 `edit` is the command, related to your favourite edit, and `${day-log-file}` is
 the path to the current (today) workday-diary-file.
 
-Using `viwdlog`
----------------
+## Using `viwdlog`
+
 For `vim` there is a wrapper program, `viwdlog`,  shipped with the package. Then
 you have to add an entry  to your shellrc file (eg. ${HOME}/.bashrc or
 ${HOME}/.zshrc) with `export WDLOG_DIR=path/to/your/logbuch/dir`.
@@ -69,24 +69,24 @@ If you use a terminal multiplexer like `screen` or `tmux` you could bind
 a key-shortcut to `viwdlog`. Then hitting `Ctrl-a l` opens vim with
 workday-log-file of the current day.
 
-# Using `screen` 
----------------
+### Using `screen` 
+
 
 Put the follwing line in your `.screenrc`
     
     bind l screen -t "vim logbuch"      9  viwdlog
 
 
-# Using `tmux` 
--------------
+### Using `tmux` 
+
 Put the follwing lines in your `.tmux.conf`
     
     unbind l
     bind-key l new-window "viwdlog"
 
 
-Format of workday-log-files
-===========================
+# Format of workday-log-files
+
 The workday-log-files should strictly follow the follwing format:
 
     Date: Friday,  20 April 2012
@@ -97,8 +97,8 @@ The workday-log-files should strictly follow the follwing format:
 
 Currently the last entry after `:` is ignored.
 
-Usage
-=====
+# Usage
+
 
 After having installed the directory structure -- and generated some first
 workday-logfiles --, you could either summarize a certain week, month or year with 
