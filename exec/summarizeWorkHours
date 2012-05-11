@@ -2,7 +2,7 @@
 #================================================================================
 # File:        summarizeWorkHours    
 # Created:     2011-10-05
-# Last Change: Thursday, 2012-05-03
+# Last Change: Friday, 2012-05-11
 # Description: program to summarize work hours
 # Usage:       summarize -[w|-week <dir>] -[m|-month <dir>] -[y|-year <dir>]
 # ToDo:        write method
@@ -14,7 +14,7 @@
 #================================================================================
 
 require("logbuch", quietly = TRUE)
-require('ggplot2', quietly = TRUE)
+suppressMessages(require('ggplot2', quietly = TRUE))
 suppressMessages(require('reshape', quietly = TRUE))
 
 opt <- procCli(commandArgs(TRUE))
@@ -24,8 +24,6 @@ opt <- procCli(commandArgs(TRUE))
 #            month = "2012/04",
 #            year = "2012"
 #            )
-
-
 out_file_names <- 
     list(
          'ts' = kTsPdfName
