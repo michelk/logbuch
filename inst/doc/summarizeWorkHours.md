@@ -1,7 +1,9 @@
-% summarizeWorkHours -- A program to summarize workday diaries
-% Michel Kuhlmann, <michel@kuhlmanns.info>
-% April 2012
-
+--- 
+format: markdown 
+categories: r package executable workday diary
+toc: yes
+title: summarizeWorkHours -- A program to summarize workday diaries
+...
 
 Description
 ===========
