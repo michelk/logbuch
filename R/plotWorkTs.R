@@ -22,7 +22,7 @@ plotWorkTs <-
      plot_data[[what]]  + 
         geom_bar() + 
         geom_hline(yintercept = hours) +
-        opts(title = 
+        ggtitle(
              paste(title_date
              , "      Total Workhours: ", sum(plot.df$Hours)
              )
