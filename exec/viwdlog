@@ -20,10 +20,10 @@ if [[ ! -e ${day_log_file}  ]]; then
     mkdir -p $(dirname ${day_log_file})
 cat << EOF > ${day_log_file}
 Date : $(date +%A) $(date +%d) $(date +%B) $(date +%Y)
-07.40 - 10.00 : Undefined : Topic
-10.00 - 12.00 : Undefined : Topic
-13.00 - 15.00 : Undefined : Topic
-15.00 - 17.00 : Undefined : Topic
+07.40 - 10.00 | <Project> | <Topic> -- <Desc>
+10.00 - 12.00 | <Project> | <Topic> -- <Desc>
+13.00 - 15.00 | <Project> | <Topic> -- <Desc>
+15.00 - 17.00 | <Project> | <Topic> -- <Desc>
 EOF
 fi
 

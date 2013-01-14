@@ -6,12 +6,12 @@ function(x){
     # Arguments:
     #    x    --  day record -file with log ending; consisting of :   
     #               Date : Monday, 18 October 2011
-    #               08.00 - 10.00  :   <Project name>   : description of work
+    #               08.00 - 10.00  |   <Project name>   | Topic1 -- Description; Topic2 --  Description
     #
     # Value:
     #   object of class workday with slots projects, hours and date
     day <- sub(".wdlog", "", basename(x))
-    day_hours_df <- read.table(x, sep = ":", skip = 1) 
+    day_hours_df <- read.table(x, sep = "|", skip = 1) 
     day_hours_df[,2]  <- gsub("  *", "", day_hours_df[,2])
     day_hours_df[,2]  <- gsub("\t", "", day_hours_df[,2])
     hours <- strsplit(as.vector(day_hours_df[,1]), split = "-")
