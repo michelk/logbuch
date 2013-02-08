@@ -1,7 +1,7 @@
 readDayFile <-
 function(x){
     # Description:
-    #    Reads in a day record and returns and object of class "workday"
+    #    Reads in a day record and returns and object of class "Workday"
     #
     # Arguments:
     #    x    --  day record -file with log ending; consisting of :   
