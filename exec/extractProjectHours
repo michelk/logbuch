@@ -1,0 +1,32 @@
+#!/usr/bin/env Rscript
+require('getopt', quietly = TRUE)
+opt_spec <- matrix(c(
+   'help'	, 'h'	, 0	, "logical"	, "Getting help"			,
+   'pattern'	, 'p'	, 1	, "character"	, "Pattern to match against Projects"	,
+   'from'	, 'f'	, 1	, "character"	, "Starting Time "			,
+   'to'		, 't'	, 1	, "character"	, "Ending Time"				,
+   'format'	, 's'	, 1	, "character"	, "Time format (default: '%Y-%m-%d')"
+   ), ncol = 5, byrow = TRUE)
+
+# Process command-line arguments
+opt <- getopt(spec = opt_spec)
+if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )   {    
+    cat(getopt(spec = opt_spec, usage = TRUE, command = "extractProjectHours"))
+    q(status=0)
+}
+if (is.null(opt$format)) opt$format <- '%Y-%m-%d'
+if (is.null(opt$from)) stop("Please specify time when to start looking")
+if (is.null(opt$to)) opt$to <- format(Sys.time(), "%Y-%m-%d")
+
+require("logbuch", quietly = TRUE)
+wdf <-
+  selectWdFiles(
+    list.wdfiles(".")
+   ,as.POSIXct(opt$from)
+   ,as.POSIXct(opt$to)
+    )
+
+sm <- summarizeWdFiles(wdf)
+i <- grep(opt$pattern, names(sm))
+print(sm[,i])
+q(status = 0)
