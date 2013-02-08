@@ -20,7 +20,7 @@ plotWorkTs <-
                                , aes(x = Projects, y = Hours, fill = Date))
          )
      plot_data[[what]]  + 
-        geom_bar() + 
+        geom_bar(stat = "identity") + 
         geom_hline(yintercept = hours) +
         ggtitle(
              paste(title_date
