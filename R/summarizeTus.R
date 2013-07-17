@@ -18,7 +18,7 @@ summarizeTus <-
                                                    , format = "%A")
                                      , ts.df)
                        , id.vars = 'Date'
-                       , variable_name = "Projects"
+                       , variable.name = "Projects"
                  )
                  names(plot.df)[3] <- "Hours"
                  wp <- 
@@ -40,7 +40,7 @@ summarizeTus <-
                                         , format = "%d") 
                            , ts.df)
                        , id.vars = 'Date'
-                       , variable_name = "Projects"
+                       , variable.name = "Projects"
                  )
                  names(plot.df.ts)[3] <- "Hours"
 

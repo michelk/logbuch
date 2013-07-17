@@ -19,15 +19,15 @@ es = lapply(pkgs, function(x)suppressMessages(require(x, quietly = TRUE, charact
 opt <- procCli(commandArgs(TRUE))
 
 #setwd("~/logbuch")    # Development
-#opt <- list(week = "2013/02/06",
-#            month = "2013/02",
+#opt <- list(week = "2013/07/27",
+#            month = "2013/07",
 #            year = "2013"
 #            )
 out_file_names <- 
     list(
          'ts' = kTsPdfName
         ,'project' = kProjPdfName
-    )
+   )
 hours_to_work <- 
     list(
          'week' =  # hours to work per day
@@ -35,7 +35,6 @@ hours_to_work <-
        , 'month' =  #  hours to work per day
             kWeekHoursToWork/kWeekDaysPerWeek
        , 'year' = kWeekHoursToWork
-       
  )
 exit_st <-
 lapply(names(opt)
@@ -46,7 +45,11 @@ lapply(names(opt)
          workdays.summed <-  # workhours per project and day (data-frame)
              summarizeWdFiles(log_files)
          out.dfs <-          # list of two data-frames: time-series and project
-             summarizeTus(workdays.summed, tu = x, hours_to_work[[x]])
+             summarizeTus(
+                 ts.df = workdays.summed
+                ,tu = x
+                ,hours_to_work = hours_to_work[[x]]
+                 )
          lapply(names(out.dfs)
               , function(y)
               {

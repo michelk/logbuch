@@ -10,10 +10,16 @@ opt_spec <- matrix(c(
 
 # Process command-line arguments
 opt <- getopt(spec = opt_spec)
-if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )   {    
+if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
+{
     cat(getopt(spec = opt_spec, usage = TRUE, command = "extractProjectHours"))
     q(status=0)
 }
+#opt<- list(
+#    pattern = "Lim"
+#   ,from = "2013-04-01"
+#   ,to = "2013-06-30"
+#)
 if (is.null(opt$format)) opt$format <- '%Y-%m-%d'
 if (is.null(opt$from)) stop("Please specify time when to start looking")
 if (is.null(opt$to)) opt$to <- format(Sys.time(), "%Y-%m-%d")
@@ -28,5 +34,9 @@ wdf <-
 
 sm <- summarizeWdFiles(wdf)
 i <- grep(opt$pattern, names(sm))
-print(sm[,i])
+sm.list <-
+    apply(
+    sm, 1, function (r) {if (all(sapply(r[i], function(x) x == 0))) NULL else r[i]}
+    )
+print(do.call(rbind, sm.list[!sapply(sm.list, is.null)]))
 q(status = 0)
