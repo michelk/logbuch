@@ -1,7 +1,9 @@
-setClass("Workday", 
-         representation(topic = "character"
-                      , hours = "numeric"
-                      , date = "POSIXct"
+setClass("Workday",
+         representation(
+             topic = "character"
+            ,hours = "numeric"
+            ,date = "POSIXct"
+            ,subject = "character"
          )
 )
 setClass("Workdays", 

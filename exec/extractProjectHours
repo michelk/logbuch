@@ -1,11 +1,12 @@
 #!/usr/bin/env Rscript
 require('getopt', quietly = TRUE)
 opt_spec <- matrix(c(
-   'help'	, 'h'	, 0	, "logical"	, "Getting help"			,
-   'pattern'	, 'p'	, 1	, "character"	, "Pattern to match against Projects"	,
-   'from'	, 'f'	, 1	, "character"	, "Starting Time "			,
-   'to'		, 't'	, 1	, "character"	, "Ending Time"				,
-   'format'	, 's'	, 1	, "character"	, "Time format (default: '%Y-%m-%d')"
+   'help'   , 'h', 0, "logical"  , "Getting help"
+  , 'pattern', 'p', 1, "character", "Pattern to match against Projects"
+  , 'from'   , 'f', 1, "character", "Starting Time"
+  , 'to'     , 't', 1, "character", "Ending Time"
+  , 'format' , 'm', 1, "character", "Time format (default: '%Y-%m-%d')"
+  , 'subject', 's', 0, "logical"  , "Should the subjects be appended"
    ), ncol = 5, byrow = TRUE)
 
 # Process command-line arguments
@@ -38,5 +39,23 @@ sm.list <-
     apply(
     sm, 1, function (r) {if (all(sapply(r[i], function(x) x == 0))) NULL else r[i]}
     )
-print(do.call(rbind, sm.list[!sapply(sm.list, is.null)]))
+sm.df <- do.call(rbind, sm.list[!sapply(sm.list, is.null)])
+if (!is.null(opt$subject) && length(i) > 1)
+    error("When printing subjects, there could only be one project selected")
+if (!is.null(opt$subject))
+{
+  p <- colnames(sm.df)
+  sbjs <-
+    sapply(
+        rownames(sm.df), function(n)
+        {
+          f <- wdf[grep(n,wdf)]
+          dd <- readDayFile(f)
+          dd@subject[which(dd@topic == p)]
+        }
+        )
+  write.csv(data.frame(p = sm.df, Arbeit = sbjs))
+} else
+    print(sm.df)
+
 q(status = 0)
