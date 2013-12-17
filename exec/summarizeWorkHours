@@ -1,16 +1,15 @@
 #!/usr/bin/Rscript
 #================================================================================
-# File:        summarizeWorkHours    
+# File:        summarizeWorkHours
 # Created:     2011-10-05
 # Last Change: Friday, 2012-11-02
 # Description: program to summarize work hours
 # Usage:       summarize -[w|-week <dir>] -[m|-month <dir>] -[y|-year <dir>]
 # ToDo:        write method
-# Bugs:        
-#             
+# Bugs:
 # Author:      Michel Kuhlmann, <michel@kuhlmanns.info>
 # Institution: TK Consult
-# Licence:     GNU General Public Licence 
+# Licence:     GNU General Public Licence
 #================================================================================
 
 pkgs = c("logbuch", 'ggplot2', 'reshape2')
@@ -23,12 +22,12 @@ opt <- procCli(commandArgs(TRUE))
 #            month = "2013/07",
 #            year = "2013"
 #            )
-out_file_names <- 
+out_file_names <-
     list(
          'ts' = kTsPdfName
         ,'project' = kProjPdfName
    )
-hours_to_work <- 
+hours_to_work <-
     list(
          'week' =  # hours to work per day
             kWeekHoursToWork/kWeekDaysPerWeek
@@ -38,9 +37,9 @@ hours_to_work <-
  )
 exit_st <-
 lapply(names(opt)
-     , function(x) 
+     , function(x)
      {
-         log_files <-        # recursive list with workdays-log-files 
+         log_files <-        # recursive list with workdays-log-files
              list.wdfiles(opt[[x]])
          workdays.summed <-  # workhours per project and day (data-frame)
              summarizeWdFiles(log_files)
@@ -54,8 +53,8 @@ lapply(names(opt)
               , function(y)
               {
                   p <- plot(out.dfs[[y]])
-                  ggsave(p, filename = paste(opt[[x]] , out_file_names[[y]] 
-                                           , sep = "/" ) 
+                  ggsave(p, filename = paste(opt[[x]] , out_file_names[[y]]
+                                           , sep = "/" )
                        , width = 12, height = 8.5
                   )
               }
