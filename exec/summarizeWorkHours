@@ -1,13 +1,4 @@
 #!/usr/bin/Rscript
-#================================================================================
-# File:        summarizeWorkHours
-# Description: program to summarize work hours
-# Usage:       see `summarizeWorkHours -h`
-# Author:      Michel Kuhlmann, <michel@kuhlmanns.info>
-# Institution: TK Consult
-# Licence:     GNU General Public Licence
-#================================================================================
-
 pkgs = c("logbuch", 'ggplot2', 'reshape2')
 es = lapply(pkgs, function(x)suppressMessages(require(x, quietly = TRUE, character.only = TRUE)))
 
@@ -31,15 +22,26 @@ hours_to_work <-
             kWeekHoursToWork/kWeekDaysPerWeek
        , 'year' = kWeekHoursToWork
  )
+writeSumCsv <-
+    function(x,file)
+{
+    x. <- cbind(x, Summe = rowSums(x))
+    x.. <- rbind(x., Summe = colSums(x.))
+    write.csv(x.., file = file, quote = FALSE)
+}
 exit_st <-
 lapply(names(opt)
      , function(x)
      {
-         log_files <-        # recursive list with workdays-log-files
+         log_files <-         # recursive list with workdays-log-files
              list.wdfiles(opt[[x]])
-         workdays.summed <-  # workhours per project and day (data-frame)
+         workdays.summed <- # workhours per project and day (data-frame)
              summarizeWdFiles(log_files)
-         out.dfs <-          # list of two data-frames: time-series and project
+         writeSumCsv(                   # write csv-out
+             workdays.summed
+            ,file.path(opt[[x]], 'TS.csv')
+             )
+         out.dfs <- # list of two data-frames: time-series and project
              summarizeTus(
                  ts.df = workdays.summed
                 ,tu = x
@@ -49,8 +51,7 @@ lapply(names(opt)
               , function(y)
               {
                   p <- plot(out.dfs[[y]])
-                  ggsave(p, filename = paste(opt[[x]] , out_file_names[[y]]
-                                          , sep = "/" )
+                  ggsave(p, filename = file.path(opt[[x]] , out_file_names[[y]])
                        , width = 12, height = 8.5
                   )
               }
@@ -60,5 +61,4 @@ lapply(names(opt)
 
 q(status = 0)
 
-# End of File ===================================================================
 # vim: set ft=r:

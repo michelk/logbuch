@@ -1,0 +1,20 @@
+#!/usr/bin/env Rscript
+require('getopt', quietly = TRUE)
+opt_spec <- matrix(c(
+     'help'      ,'h', 0, "logical"  , "Getting help"
+    ,'year'      ,'y', 1, "integer",   "Year to be reported"
+    ,'hours'     ,'u', 1, "character", "Hours per day to be worked"
+   )       , ncol = 5    , byrow = TRUE)
+
+# Process command-line arguments
+opt <- getopt(spec = opt_spec)
+if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
+{
+    cat(getopt(spec = opt_spec, usage = TRUE, command = "workHours"))
+    q(status=0)
+}
+#opt <- list(directory = ".", hours = 6.8, output = "WorkhoursReport2013.pdf", year = "2013")
+
+suppressPackageStartupMessages(require('logbuch', quietly = TRUE))
+yearWorkHours(opt$year, opt$hours)
+q(status = 0)

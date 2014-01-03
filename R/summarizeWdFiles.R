@@ -1,10 +1,10 @@
 summarizeWdFiles <-
     function                            # ^ summarize workdays
 (
-    xs                 # ^ vector with workday-files
+    xs                                  # ^ vector with workday-files
 )
 {
-    # ToDo: validity check to find log_files
+    # ToDo: validity check to find log_files (eg duplicated files)
     workdays.list <-                    # list with workdays
         Workdays(wd = lapply(xs, function(x) readDayFile(x)))
 

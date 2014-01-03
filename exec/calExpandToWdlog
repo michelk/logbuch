@@ -14,7 +14,6 @@ parser <- OptionParser(usage = "%prog [options] file.cal", option_list=option_li
 arguments <- parse_args(parser, positional_arguments = 1)
 opt <- arguments$options
 file <- arguments$args
-isWeekend <- function(d) format(d, "%a") %in% c("Sat", "Sun")
 if( file.access(file) == -1) {
     stop(sprintf("Specified file ( %s ) does not exist", file))
 } else {
