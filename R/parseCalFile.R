@@ -48,7 +48,7 @@ parseCalFile <-
                         else
                             paste(x, n)
                     }
-                    as.POSIXct(paste(year,days), format = "%Y %W %w")
+                    as.POSIXct(paste(year,days), format = "%Y %V %w")
                 }
             days <-
             {

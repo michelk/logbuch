@@ -3,7 +3,7 @@ setMethod("plot", signature(x = "WorkPeriodWeekTs"),
     {
         plotWorkTs(x@plot_df, what = 'ts'
                  , title_date = 
-                       strftime(as.Date(x@from_to[1]) , format = "%B %Y, Week %W")
+                       strftime(as.Date(x@from_to[1]) , format = "%B %Y, Week %V")
                 , hours = x@hours_to_work
         )
     }
@@ -13,7 +13,7 @@ setMethod("plot", signature(x = "WorkPeriodWeekPt"),
     {
        plotWorkTs(x@plot_df, what = 'project' 
                 , title_date = 
-                       strftime(as.Date(x@from_to[1]) , format = "%B %Y, Week %W")
+                       strftime(as.Date(x@from_to[1]) , format = "%B %Y, Week %V")
        )
     }
 )

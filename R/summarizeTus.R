@@ -48,7 +48,7 @@ summarizeTus <-
                  pt.df <- 
                      data.frame(
                                 Date = as.factor(strftime(as.Date(rownames(ts.df)) 
-                                                , format = "%W"))
+                                                , format = "%V"))
                               , ts.df)
                  pt.week.df <- 
                     t(sapply(levels(pt.df$Date)
@@ -78,7 +78,7 @@ summarizeTus <-
                  pt.df <- 
                      data.frame(
                                 Date = as.factor(strftime(as.Date(rownames(ts.df)) 
-                                                , format = "%W"))
+                                                , format = "%V"))
                               , ts.df)
                  pt.week.df <- 
                     t(sapply(levels(pt.df$Date)

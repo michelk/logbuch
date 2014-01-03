@@ -1,12 +1,8 @@
 #!/usr/bin/Rscript
 #================================================================================
 # File:        summarizeWorkHours
-# Created:     2011-10-05
-# Last Change: Friday, 2012-11-02
 # Description: program to summarize work hours
-# Usage:       summarize -[w|-week <dir>] -[m|-month <dir>] -[y|-year <dir>]
-# ToDo:        write method
-# Bugs:
+# Usage:       see `summarizeWorkHours -h`
 # Author:      Michel Kuhlmann, <michel@kuhlmanns.info>
 # Institution: TK Consult
 # Licence:     GNU General Public Licence
@@ -54,7 +50,7 @@ lapply(names(opt)
               {
                   p <- plot(out.dfs[[y]])
                   ggsave(p, filename = paste(opt[[x]] , out_file_names[[y]]
-                                           , sep = "/" )
+                                          , sep = "/" )
                        , width = 12, height = 8.5
                   )
               }

@@ -5,7 +5,7 @@ writeWdlog <-
    ,path          # ^ root-directory where wdlog-files are located
    ,hours         # ^ hours per day to be worked
    ,dir_struct =  # ^ directory date-format (see ?strptime)
-    "%Y/%m/%W"    #   eg '2013/12/51'
+    "%Y/%m/%V"    #   eg '2013/12/51'
    ,file_struct = # ^ file date-format (see ?strptime)
     "%F.wdlog"    #   eg '2013-12-05.wdlog'
    ,col_sep =     # ^ column-seperator in wdlog-file
@@ -36,7 +36,7 @@ writeWdlog <-
         wd_file <- file.path(dir, format(d, file_struct))
         wd_header <- wdlogHeader(d)
         end_time <-
-            format(as.POSIXct("2000-01-01 00:00:00") + (hours * 3600), "%H:%M")
+            format(as.POSIXct("2000-01-01 00:00:00") + (hours * 3600), "%H.%M")
         time <- paste("00.00", end_time, sep = " - ")
         wd_line <-
             paste(time, as.character(dd[i,2]), as.character(dd[i,3]), sep = col_sep)
