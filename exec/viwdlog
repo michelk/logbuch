@@ -13,7 +13,7 @@
 }
 
     
-day_log_file=${WDLOG_DIR}/$(date +%Y)/$(date +%m)/$(date +%V)/$(date +%F).wdlog
+day_log_file=${WDLOG_DIR}/$(date +%Y)/$(date +%m)/$(date +%W)/$(date +%F).wdlog
 
 
 if [[ ! -e ${day_log_file}  ]]; then

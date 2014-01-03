@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 suppressPackageStartupMessages(library("optparse"))
-
+require('logbuch', quietly = TRUE)
 option_list <- list(
     make_option(c("-y", "--year"), type = "character", default = format(Sys.Date(), "%Y"),
                 help = "Root-directory where wdlog-files are located [default %default]")
@@ -14,10 +14,13 @@ parser <- OptionParser(usage = "%prog [options] file.cal", option_list=option_li
 arguments <- parse_args(parser, positional_arguments = 1)
 opt <- arguments$options
 file <- arguments$args
-
 if( file.access(file) == -1) {
     stop(sprintf("Specified file ( %s ) does not exist", file))
 } else {
     wdlogs <- parseCalFile(file, year = opt$year)
-    writeWdlog(wdlogs, opt$hours)
+    writeWdlog(
+        dd = wdlogs
+       ,path = opt$directory
+       ,hours = opt$hours
+        )
 }
