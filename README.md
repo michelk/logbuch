@@ -1,7 +1,3 @@
-% logbuch -- A R package for summarizing workday-diaries
-% Michel Kuhlmann, <michel@kuhlmanns.info>
-% April 2012 
-
 # Description
 
 Given a set of workday-record-files, the executable, `summarizeWorkHours`, --
