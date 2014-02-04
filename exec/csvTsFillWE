@@ -1,0 +1,12 @@
+#!/usr/bin/env Rscript
+# | Fill Weekends in a csv (row-names: date)
+f = file('stdin')
+d. <- read.csv(f, row.names = 1)
+d <- d.[-nrow(d.), -ncol(d.)]
+t1 <- as.POSIXct(rownames(d)[1])
+t2 <- as.POSIXct(rownames(d)[nrow(d)])
+dna <- data.frame(row.names = seq(t1,t2, by = "day"))
+dwe. <- merge(d, dna, by = "row.names", all = TRUE)
+dwe <- data.frame(dwe.[,-1], row.names = dwe.[,1])
+dwe[dwe == 0] <- NA
+write.table(t(dwe), na = "", dec = ".", sep = ";", quote = FALSE)
