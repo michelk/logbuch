@@ -1,0 +1,134 @@
+#!/usr/bin/env Rscript
+# | Summarize work hours of a whole team
+## * Command-line parsing
+require('optparse', quietly = TRUE)
+option_list <- list(
+    make_option(
+        c("-p", "--pod"), type = "character", default= ".",
+        help="Output directory for project files [default: %default]")
+    make_option(
+        c("-w", "--wod"), type = "character", default= ".",
+        help="Output directory for worker files [default: %default]")
+    )
+parser <-
+    OptionParser(usage = "%prog [options] ts.csv\n\t%prog [options] < ts.csv",
+                 option_list=option_list)
+
+arguments <- parse_args(parser, positional_arguments = TRUE)
+opt <- arguments$options
+
+if (length(arguments$args) > 1)
+{
+    message("Please specify hours.csv-file; either though stdin or file")
+    print_help(parser)
+    q(status = 1)
+} else if (length(arguments$args) == 1)
+{
+    f <- arguments$args
+} else
+{
+    f <- file('stdin')
+}
+
+#f <- "./test.csv"
+## * Parameters
+NBM <- 10                                # Number of days per month
+AMNT <-                                  # Month (abbr) - Number Assoc-list
+    setNames(seq_len(12),
+             c("Jan", "Feb", "Mrz", "Apr", "Mai", "Jun",
+               "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"))
+## * Data Processing
+
+## ** Read data in
+dd <-                                   # read all data in
+    read.table(f, sep = ";", stringsAsFactors = FALSE)[,1:(NBM+6)]
+ddd <-                                  # each day in a row
+    do.call(
+        rbind,
+        lapply(
+            seq_len(nrow(dd)), function(j)
+        {
+            r <- as.character(dd[j,])
+            do.call(
+                rbind,
+                lapply(
+                    seq_len(NBM), function(i)
+                {
+                    dte <-                          # date
+                        as.POSIXct(
+                            sprintf("%i-%i-%i", as.numeric(r[2]), AMNT[[r[3]]], i))
+                    data.frame(Date = dte, Person = r[1], ProjectName = r[4],
+                               ProjectNb = r[5], ProjectSubNb = r[6],
+                               Time = as.numeric(r[6+i]))
+                }
+                    ))
+        }
+            )
+        )
+## ** Process Project-Hours
+projs <- levels(ddd$ProjectNb)
+hacc <-                          # accumulated hours
+    setNames(
+        lapply(
+        projs, function(pn)
+    {
+        p <-                                # project-data
+            subset(ddd, ProjectNb == pn)
+        do.call(
+            rbind
+            , lapply(                             # hours subproject per worker
+                     levels(factor(p$ProjectSubNb)), function(spn)
+                 {
+                     sp <-
+                         subset(p, ProjectSubNb == spn)
+                     wh <-                    # hours per worker
+                         sapply(
+                             levels(sp$Person), function(wn)
+                             sum((subset(sp, Person == wn)$Time)))
+                     data.frame(t(wh), row.names = spn)
+                 }
+                     )
+            )
+    }), projs)
+## ** Process Worker Hours
+pers <- levels(ddd$Person)
+whs <-
+    setNames(lapply(
+        pers, function(wn)
+    {
+        w. <-                                # worker-data
+           subset(ddd, Person == wn)
+        w <-
+            cbind(w, Month = factor(format(w$Date, "%m")))
+        do.call(
+            rbind
+            ,lapply(
+                levels(w$Month), function(mn)
+            {
+                m <-
+                    subset(w, Month == mn)
+                ph <-                       # hours per project
+                    sapply(
+                        levels(w$ProjectNb), function(pn)
+                        sum(subset(m, ProjectNb == pn)$Time)
+                        )
+                data.frame(t(ph), row.names = mn)
+            }
+                )
+            )
+    }
+        ), pers)
+## * Create output-files
+
+projAssoc <-         # mapping project and subproject-numbers to names
+    stop("undefined")                   # TODO
+dfStat <-
+    function(x)        # calculate row and column sums and append them
+{
+    cs <- cbind(x, Sum = rowSums(x))
+    rbind(cs, Sum = colSums(x))
+}
+## ** Project files
+lapply(names(hacc))
+
+## ** Worker files
