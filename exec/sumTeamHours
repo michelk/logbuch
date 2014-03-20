@@ -5,7 +5,7 @@ require('optparse', quietly = TRUE)
 option_list <- list(
     make_option(
         c("-p", "--pod"), type = "character", default= ".",
-        help="Output directory for project files [default: %default]")
+        help="Output directory for project files [default: %default]"),
     make_option(
         c("-w", "--wod"), type = "character", default= ".",
         help="Output directory for worker files [default: %default]")
@@ -42,13 +42,25 @@ AMNT <-                                  # Month (abbr) - Number Assoc-list
 ## ** Read data in
 dd <-                                   # read all data in
     read.table(f, sep = ";", stringsAsFactors = FALSE)[,1:(NBM+6)]
+naDateEqZero <-
+    function
+(
+    r                                 # data.frame with one single row
+   ,ir                                # index range with dates
+)
+{
+    dts <- as.numeric(r[,ir])
+    dts[is.na(dts)] <- 0
+    c(as.character(r[1:(ir[1]-1)]), as.character(dts))
+    # returns a character-vector
+}
 ddd <-                                  # each day in a row
     do.call(
         rbind,
         lapply(
             seq_len(nrow(dd)), function(j)
         {
-            r <- as.character(dd[j,])
+            r <- naDateEqZero(dd[j,], seq_len(NBM)+6)
             do.call(
                 rbind,
                 lapply(
@@ -99,7 +111,7 @@ whs <-
         w. <-                                # worker-data
            subset(ddd, Person == wn)
         w <-
-            cbind(w, Month = factor(format(w$Date, "%m")))
+            cbind(w., Month = factor(format(w.$Date, "%m")))
         do.call(
             rbind
             ,lapply(
@@ -120,15 +132,19 @@ whs <-
         ), pers)
 ## * Create output-files
 
-projAssoc <-         # mapping project and subproject-numbers to names
-    stop("undefined")                   # TODO
 dfStat <-
     function(x)        # calculate row and column sums and append them
 {
-    cs <- cbind(x, Sum = rowSums(x))
-    rbind(cs, Sum = colSums(x))
+    cs <- cbind(x, Total = rowSums(x))
+    rbind(cs, Total = colSums(x))
 }
 ## ** Project files
-lapply(names(hacc))
+for (pn in names(hacc))
+    write.csv2(dfStat(hacc[[pn]]),
+               file = file.path(opt$pod, sprintf("%s.csv", pn)))
 
 ## ** Worker files
+
+for (wn in names(whs))
+    write.csv2(dfStat(whs[[wn]]),
+               file = file.path(opt$wod, sprintf("%s.csv", wn)))
