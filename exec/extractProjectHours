@@ -54,7 +54,11 @@ if (!is.null(opt$subject))
           dd@subject[which(dd@topic == p)]
         }
         )
-  write.csv(data.frame(p = sm.df, Arbeit = sbjs))
+  odf <- data.frame(p = sm.df, Arbeit = sbjs)
+  cat(paste(c("Date", names(odf)), collapse = ", "), "\n")
+  write.table(
+     odf
+    ,quote = FALSE, sep = ",", col.names = FALSE)
 } else
     print(sm.df)
 

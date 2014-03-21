@@ -1,0 +1,37 @@
+#!/usr/bin/env Rscript
+args <- commandArgs(TRUE)
+if (length(args) != 1)
+    stop("Usage: xlsxToCsv TS_AAA_2014.xslx > TS.csv")
+
+f <- args[1]
+
+#f= "./TS_2014_KUM.xlsx"
+MONTHS <-
+    c("Jan", "Feb", "Mrz", "Apr", "Mai", "Jun",
+      "Jul", "Aug", "Sep", "Okt", "Nov", "Dez")
+require('methods', quietly = TRUE)
+require('xlsx', quietly = TRUE)
+fs <-
+    strsplit(basename(sub("\\.xlsx", "", f)), "_")[[1]]
+worker <- fs[3]
+year <- as.numeric(fs[2])
+wb <- loadWorkbook(f)
+sheets.all <- names(getSheets(wb))
+sheets <-                               # sheets with month-data
+    sheets.all[sapply(sheets.all, function(s) s %in% MONTHS)]
+odf <-
+    do.call(
+        rbind,
+        lapply(
+            sheets, function(s)
+        {
+            dd <-
+                read.xlsx2(f, sheetName = s, header = FALSE, startRow = 4)
+            data.frame(Year = year, Month = s, Worker = worker,
+                       TaskName = dd[,1], ProjectNmb = dd[,2],
+                       SubProjectNmb = dd[,3], dd[,seq_len(31) + 4]
+                       )
+        }
+            ))
+write.table(odf, sep = ";",
+            row.names = FALSE, col.names = FALSE, quote = FALSE)
