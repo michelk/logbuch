@@ -42,18 +42,6 @@ AMNT <-                                  # Month (abbr) - Number Assoc-list
 ## ** Read data in
 dd <-                                   # read all data in
     read.table(f, sep = ";", stringsAsFactors = FALSE)[,1:(NBM+6)]
-naDateEqZero <-
-    function
-(
-    r                                 # data.frame with one single row
-   ,ir                                # index range with dates
-)
-{
-    dts <- as.numeric(r[,ir])
-    dts[is.na(dts)] <- 0
-    c(as.character(r[1:(ir[1]-1)]), as.character(dts))
-    # returns a character-vector
-}
 ddd <-                                  # each day in a row
     do.call(
         rbind,
@@ -78,7 +66,7 @@ ddd <-                                  # each day in a row
             )
         )
 ## ** Process Project-Hours
-projs <- levels(ddd$ProjectNb)
+projs <- levels(factor(ddd$ProjectNb))
 hacc <-                          # accumulated hours
     setNames(
         lapply(
@@ -103,7 +91,7 @@ hacc <-                          # accumulated hours
             )
     }), projs)
 ## ** Process Worker Hours
-pers <- levels(ddd$Person)
+pers <- levels(factor(ddd$Person))
 whs <-
     setNames(lapply(
         pers, function(wn)
@@ -121,7 +109,7 @@ whs <-
                     subset(w, Month == mn)
                 ph <-                       # hours per project
                     sapply(
-                        levels(w$ProjectNb), function(pn)
+                        levels(factor(w$ProjectNb)), function(pn)
                         sum(subset(m, ProjectNb == pn)$Time)
                         )
                 data.frame(t(ph), row.names = mn)
