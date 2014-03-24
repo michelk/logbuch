@@ -42,6 +42,18 @@ AMNT <-                                  # Month (abbr) - Number Assoc-list
 ## ** Read data in
 dd <-                                   # read all data in
     read.table(f, sep = ";", stringsAsFactors = FALSE)[,1:(NBM+6)]
+naDateEqZero <-
+    function
+(
+    r                                 # data.frame with one single row
+   ,ir                                # index range with dates
+)
+{
+    dts <- as.numeric(r[,ir])
+    dts[is.na(dts)] <- 0
+    c(as.character(r[1:(ir[1]-1)]), as.character(dts))
+    # returns a character-vector
+}
 ddd <-                                  # each day in a row
     do.call(
         rbind,
@@ -123,10 +135,16 @@ whs <-
 dfStat <-
     function(x)        # calculate row and column sums and append them
 {
-    cs <- cbind(x, Sum = rowSums(x))
-    rbind(cs, Sum = colSums(x))
+    cs <- cbind(x, Total = rowSums(x))
+    rbind(cs, Total = colSums(x))
 }
 ## ** Project files
-lapply(names(hacc))
+for (pn in names(hacc))
+    write.csv2(dfStat(hacc[[pn]]),
+               file = file.path(opt$pod, sprintf("%s.csv", pn)))
 
 ## ** Worker files
+
+for (wn in names(whs))
+    write.csv2(dfStat(whs[[wn]]),
+               file = file.path(opt$wod, sprintf("%s.csv", wn)))
