@@ -5,7 +5,7 @@ require('optparse', quietly = TRUE)
 option_list <- list(
     make_option(
         c("-p", "--pod"), type = "character", default= ".",
-        help="Output directory for project files [default: %default]")
+        help="Output directory for project files [default: %default]"),
     make_option(
         c("-w", "--wod"), type = "character", default= ".",
         help="Output directory for worker files [default: %default]")
@@ -32,7 +32,7 @@ if (length(arguments$args) > 1)
 
 #f <- "./test.csv"
 ## * Parameters
-NBM <- 10                                # Number of days per month
+NBM <- 31                                # Number of days per month
 AMNT <-                                  # Month (abbr) - Number Assoc-list
     setNames(seq_len(12),
              c("Jan", "Feb", "Mrz", "Apr", "Mai", "Jun",
@@ -48,18 +48,18 @@ ddd <-                                  # each day in a row
         lapply(
             seq_len(nrow(dd)), function(j)
         {
-            r <- as.character(dd[j,])
+            r <- dd[j,]
             do.call(
                 rbind,
                 lapply(
-                    seq_len(NBM), function(i)
+                    seq_len(NBM)[as.logical(!is.na(r[,seq_len(NBM)+6]))], function(i)
                 {
                     dte <-                          # date
                         as.POSIXct(
-                            sprintf("%i-%i-%i", as.numeric(r[2]), AMNT[[r[3]]], i))
-                    data.frame(Date = dte, Person = r[1], ProjectName = r[4],
-                               ProjectNb = r[5], ProjectSubNb = r[6],
-                               Time = as.numeric(r[6+i]))
+                            sprintf("%i-%i-%i", as.numeric(r[1]), AMNT[[r[,2]]], i))
+                    data.frame(Date = dte, Person = r[,3], ProjectName = r[,4],
+                               ProjectNb = r[,5], ProjectSubNb = r[,6],
+                               Time = as.numeric(r[,6+i]))
                 }
                     ))
         }
@@ -99,7 +99,7 @@ whs <-
         w. <-                                # worker-data
            subset(ddd, Person == wn)
         w <-
-            cbind(w, Month = factor(format(w$Date, "%m")))
+            cbind(w., Month = factor(format(w.$Date, "%m")))
         do.call(
             rbind
             ,lapply(
@@ -120,8 +120,6 @@ whs <-
         ), pers)
 ## * Create output-files
 
-projAssoc <-         # mapping project and subproject-numbers to names
-    stop("undefined")                   # TODO
 dfStat <-
     function(x)        # calculate row and column sums and append them
 {
