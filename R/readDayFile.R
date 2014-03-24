@@ -2,18 +2,30 @@ readDayFile <-
     function # ^Reads in a day record and returns and object of class "Workday"
 (
     x # ^ character; day record -file with log ending; consisting of :
-)                                   #  Date : Monday, 18 October 2011
-           #  08.00 - 10.00  |   <Project name>   | Subject1 -- Description; Subject --  Description
+)        #  Date : Monday, 18 October 2011
+         #  08.00 - 10.00  |   <Project>   | <subproject>  | Description
+         #  10.00 - 12.00  |   <Project>   | <subproject2> | Description
 {
-    day <-
-      sub(".wdlog", "", basename(x))
-    day_hours_df <-
-      read.table(x, sep = "|", skip = 1)
-    day_hours_df[,2]  <- gsub("  *", "", day_hours_df[,2])
-    day_hours_df[,2]  <- gsub("\t", "", day_hours_df[,2])
-    hours <- strsplit(as.vector(day_hours_df[,1]), split = "-")
+    readHours <-
+        function                        # ^ parse hours sep could '.' or ':'
+    (
+        h
+    )
+    {
+        stop("undefined")              # TODO
+    }                                  # ^ list with hours and minutes
+    day <- sub(".wdlog", "", basename(x))
+    day_hours_df. <-
+        read.table(x, sep = "|", skip = 1, stringsAsFactors = FALSE)
+    day_hours_df <-         # remove any whitespace/tab except of desc
+        cbind(
+            t(apply(day_hours_df.[,1:3], 1, cleanWdLogField)),
+            day_hours_df.[,4]
+            )
+    hoursSE <-                          # hours start-end-points
+        strsplit(as.vector(day_hours_df[,1]), split = "-")
     hours <-
-        sapply(hours,
+        sapply(hoursSE,
                function(y){
                    h <- as.POSIXct(paste(day, y),
                                    format = "%Y-%m-%d %H.%M")
