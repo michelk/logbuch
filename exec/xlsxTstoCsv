@@ -25,8 +25,11 @@ odf <-
         lapply(
             sheets, function(s)
         {
-            dd <-
+            dd. <-
                 read.xlsx2(f, sheetName = s, header = FALSE, startRow = 4)
+            dd <-                # neglect rows without project-number
+                dd[!sapply(suppressWarnings(as.numeric(as.character(dd[,2]))),
+                       is.na),]
             data.frame(Year = year, Month = s, Worker = worker,
                        TaskName = dd[,1], ProjectNmb = dd[,2],
                        SubProjectNmb = dd[,3], dd[,seq_len(31) + 4]
