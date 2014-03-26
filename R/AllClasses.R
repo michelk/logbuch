@@ -1,31 +1,38 @@
+setClass(
+    "ProjectDay",
+    representation(
+        name = "character"    # ^ name of the project
+       ,date = "POSIXct"      # ^ day worked on the project
+       ,hours = "list"        # ^ named list with hours per subproject
+        )
+    )
 setClass("Workday",
          representation(
-             topic = "character"
-            ,hours = "numeric"
-            ,date = "POSIXct"
+             topic   = "character"
+            ,hours   = "numeric"
+            ,date    = "POSIXct"
             ,subject = "character"
          )
 )
-setClass("Workdays", 
+setClass("Workdays",
          representation(wd = "list")
 )
 
-Workdays <- 
+Workdays <-
     function
 (
     wd             # list with workdays
 )
 {
     library("methods")
-    new("Workdays", 
-        wd = wd
-        )
+    new("Workdays", wd = wd)
 }
 
-setClass("Workweek", 
-         representation(topics = "character"
-                      , hours = "numeric"
-                      , week = "numeric"
+setClass("Workweek",
+         representation(
+              topics = "character"
+             ,hours  = "numeric"
+             ,week   = "numeric"
          )
 )
 setClass('WorkPeriod',
