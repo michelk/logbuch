@@ -86,10 +86,10 @@ Put the follwing lines in your `.tmux.conf`
 The workday-log-files should strictly follow the follwing format:
 
     Date: Friday,  20 April 2012
-    08.00 - 10.00 : ProjectA : Initialising -- initiated ProjectA
-    10.00 - 12.00 : ProjectB : Cleanup -- cleaned up ProjectB
-    13.00 - 15.00 : ProjectA : Report -- Started with report
-    15.00 - 17.00 : ProjectC : BugFix -- line 34 of ProjectC fixed
+    08.00 - 10.00 | ProjectA | Initialising | initiated ProjectA
+    10.00 - 12.00 | ProjectB | Cleanup | cleaned up ProjectB
+    13.00 - 15.00 | ProjectA | Report | Started with report
+    15.00 - 17.00 | ProjectC | BugFix | line 34 of ProjectC fixed
 
 Currently the last entry after `:` is ignored.
 
