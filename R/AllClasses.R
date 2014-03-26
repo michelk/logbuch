@@ -1,3 +1,11 @@
+setClass(
+    "ProjectDay",
+    representation(
+        name = "character"    # ^ name of the project
+       ,date = "POSIXct"      # ^ day worked on the project
+       ,hours = "list"        # ^ named list with hours per subproject
+        )
+    )
 setClass("Workday",
          representation(
              topic   = "character"
