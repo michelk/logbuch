@@ -9,18 +9,23 @@ readDayFile <-
    ,subProj = FALSE             # should subprojects be kept seperated
 )
 {
+    COLS <- c("Time", "Proj", "SubProj", "Desc")
     dte <-                # date is defined in file-name et 2014-03-27
         sub(".wdlog", "", basename(x))
     dd. <-
         read.table(
-            x, col.names = c("Time", "Proj", "SubProj", "Desc"),
+            x, col.names = COLS,
             sep = "|", skip = 1, stringsAsFactors = FALSE)
+    if (nrow(dd.) == 0)
+        return(NULL)
     dd <-         # remove any whitespace/tab except of desc
-        cbind(
-            apply(dd.[,1:3], 2, cleanWdLogField),
-            Desc = strip(dd.[,4])
-            )
-    ddh <-                      # points in time converted to durations
+        data.frame(do.call(rbind,
+                lapply(seq_len(nrow(dd.)), function(i)
+                       c(cleanWdLogField(dd.[i,1:3]), strip(dd.[,4]))
+                       )
+                ))
+    names(dd) <- COLS
+    ddh <-                      # points in time converted to durations 
        transform(dd, Time = tStampToHours(Time))
     dds <-                              # summed up subproject-hours
         sumSubProjects(ddh, "Proj", "SubProj", "Time", "Desc")

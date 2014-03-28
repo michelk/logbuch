@@ -1,0 +1,57 @@
+#!/usr/bin/env Rscript
+# | Looks recursively for .wdlog-files and converts them to csv (stdout)
+## * Command-line parsing
+args <- commandArgs(TRUE)
+if (args[1] %in% c("-h", "--help"))
+{
+    message(
+        "Program to look recursively for .wdlog-files and ",
+        "convert them to csv (stdout)\n\n",
+        "Usage: wdLogToCsv [dir] > wdlog.csv\n",
+        "\twhere 'dir' is the directory to look for wdlog-files")
+    q()
+}
+dir <-
+{
+    if (length(args) == 0)
+        '.'
+    else if (length(args) == 1)
+       args[1]
+    else
+        stop("Too many postional arguments")
+}
+
+SUFFIX <- "\\.wdlog$"
+
+#AMNT <-                             # Month (abbr) - Number Assoc-list
+#    setNames(seq_len(12),
+#             c("Jan", "Feb", "Mrz", "Apr", "Mai", "Jun",
+#               "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"))
+
+require('logbuch', quietly = TRUE)
+require('reshape2', quietly = TRUE)
+fs <-
+    list.files(dir, SUFFIX, recursive = TRUE, full.names = TRUE)
+
+if (length(fs) == 0)
+    stop('Could not find any .wdlog-files')
+dd. <-
+    do.call(
+        rbind,
+        lapply(
+            fs, function(f)
+        {
+            dd <-                                # suproject-summarized hours
+                readDayFile(f, subProj = TRUE)
+            if (is.null(dd))
+                return(NULL)
+            dt <-                               # date
+                as.POSIXct(sub(SUFFIX, "", basename(f)))
+            data.frame(
+                Year = format(dt, "%Y"),
+                Month = format(dt, "%m"), Day = format(dt, "%d")
+                ,dd)
+        }
+            ))                          # TODO: fill-up weekends
+dd <-
+    dcast(dd., Year + Month + Proj + SubProj ~ Day, value.var = "Time")
