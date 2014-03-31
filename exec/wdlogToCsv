@@ -16,9 +16,7 @@ if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
     message(
         "Program to look recursively for .wdlog-files and ",
         "convert them to csv (stdout)\n\n",
-        "Usage: wdLogToCsv [dir] > wdlog.csv\n",
-        "\twhere 'dir' is the directory to look for wdlog-files")
-    cat(getopt(spec = opt_spec, usage = TRUE, command = "wdLogToCsv"))
+    cat(getopt(spec = opt_spec, usage = TRUE, command = "wdlogToCsv"))
     q(status=0)
 }
 SUFFIX <- "wdlog"
