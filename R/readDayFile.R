@@ -26,7 +26,7 @@ readDayFile <-
                 ))
     names(dd) <- COLS
     ddh <-                      # points in time converted to durations 
-       transform(dd, Time = tStampToHours(Time))
+       transform(dd, Time = round(tStampToHours(Time), digits = 2))
     dds <-                              # summed up subproject-hours
         sumSubProjects(ddh, "Proj", "SubProj", "Time", "Desc")
 
