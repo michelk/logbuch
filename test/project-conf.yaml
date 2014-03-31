@@ -1,0 +1,10 @@
+Proj1 :
+    nb : 0.001
+    sb : 
+      SubProj : 1000
+      SubProj2 : 2000
+Proj2 :
+    nb : 0.002
+    sb : 
+      SubProj1 : 1000
+      SubProj2 : 2000

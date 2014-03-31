@@ -1,57 +1,94 @@
 #!/usr/bin/env Rscript
 # | Looks recursively for .wdlog-files and converts them to csv (stdout)
 ## * Command-line parsing
-args <- commandArgs(TRUE)
-if (args[1] %in% c("-h", "--help"))
+require('getopt', quietly = TRUE)
+opt_spec <- matrix(c(
+     'help'      ,'h', 0, "logical"  , "Getting help"
+    ,'dir'       ,'d', 1, "character", "Directory to look for wdlog-files"
+    ,'worker'    ,'w', 1, "character", "Optional name of worker; added as column"
+    ,'projconf'  ,'p', 1, "character", "Optional filepath to project-configuration"
+   )       , ncol = 5    , byrow = TRUE)
+
+# Process command-line arguments
+opt <- getopt(spec = opt_spec)
+if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
 {
     message(
         "Program to look recursively for .wdlog-files and ",
         "convert them to csv (stdout)\n\n",
         "Usage: wdLogToCsv [dir] > wdlog.csv\n",
         "\twhere 'dir' is the directory to look for wdlog-files")
-    q()
+    cat(getopt(spec = opt_spec, usage = TRUE, command = "wdLogToCsv"))
+    q(status=0)
 }
-dir <-
-{
-    if (length(args) == 0)
-        '.'
-    else if (length(args) == 1)
-       args[1]
-    else
-        stop("Too many postional arguments")
-}
+SUFFIX <- "wdlog"
+SFP <- sprintf("\\.%s$", SUFFIX)
 
-SUFFIX <- "\\.wdlog$"
+fpToDate <- function(f) as.POSIXct(sub(SFP, "", basename(f)))
+dateToFp <- function(d) paste(as.character(d), SUFFIX, sep = ".")
 
 #AMNT <-                             # Month (abbr) - Number Assoc-list
 #    setNames(seq_len(12),
 #             c("Jan", "Feb", "Mrz", "Apr", "Mai", "Jun",
 #               "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"))
-
 require('logbuch', quietly = TRUE)
 require('reshape2', quietly = TRUE)
-fs <-
-    list.files(dir, SUFFIX, recursive = TRUE, full.names = TRUE)
+require('yaml',  quietly = TRUE)
 
+projConf <-           # project-configuration (mapping name to number)
+{
+    if (!is.null(opt$projconf))
+        yaml.load_file(opt$projconf)
+    else
+        NULL
+}
+
+fs <-
+    list.files(opt$dir, SFP, recursive = TRUE, full.names = TRUE)
+bfs <- basename(fs)
 if (length(fs) == 0)
     stop('Could not find any .wdlog-files')
+dts <-                                  # all days in date-range
+    seq(fpToDate(fs[1]), fpToDate(fs[length(fs)]), by = "day")
 dd. <-
     do.call(
         rbind,
         lapply(
-            fs, function(f)
+            dts, function(d)
         {
-            dd <-                                # suproject-summarized hours
-                readDayFile(f, subProj = TRUE)
-            if (is.null(dd))
-                return(NULL)
-            dt <-                               # date
-                as.POSIXct(sub(SUFFIX, "", basename(f)))
-            data.frame(
-                Year = format(dt, "%Y"),
-                Month = format(dt, "%m"), Day = format(dt, "%d")
-                ,dd)
+            dd. <-
+            {
+                if (dateToFp(d) %in% bfs)
+                    readDayFile( # could also emmit NULL, if parsing fails
+                        fs[which(bfs == d)], subProj = TRUE)
+                else
+                    NULL
+            }
+            dd <-
+            {
+                if (is.null(dd.))
+                    data.frame(Proj = NA, SubProj = NA, Time = NA, Desc = NA)
+                else
+                    dd.
+            }
+            cbind(
+                data.frame(
+                    Year = format(d, "%Y"),
+                    Month = format(d, "%m"), Day = format(d, "%d")
+                    ), dd)
         }
-            ))                          # TODO: fill-up weekends
+            ))
 dd <-
     dcast(dd., Year + Month + Proj + SubProj ~ Day, value.var = "Time")
+odd <-                                  # output-table
+{
+    if (!is.null(opt$worker))
+        cbind(Worker = opt$worker, dd)
+    else
+        dd
+}
+# TODO: mapping project-name to number
+write.table(
+    odd,
+    col.names = FALSE, row.names = FALSE, quote = FALSE,
+    sep = ";", na = "")
