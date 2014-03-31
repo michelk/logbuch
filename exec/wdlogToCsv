@@ -15,7 +15,7 @@ if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
 {
     message(
         "Program to look recursively for .wdlog-files and ",
-        "convert them to csv (stdout)\n\n",
+        "convert them to csv (stdout)\n\n")
     cat(getopt(spec = opt_spec, usage = TRUE, command = "wdlogToCsv"))
     q(status=0)
 }
