@@ -1,7 +1,7 @@
 Package: logbuch
 Type: Package
 Title: Summarize workday log-files
-Version: 1.0
+Version: 1.1
 Date: 2011-10-10
 Author: Michel Kuhlmann
 Maintainer: Michel Kuhlmann <michel@kuhlmanns.info>
