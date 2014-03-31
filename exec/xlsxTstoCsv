@@ -1,11 +1,11 @@
 #!/usr/bin/env Rscript
+# | Convert exec-timesheet into csv
 args <- commandArgs(TRUE)
-if (length(args) != 1)
+if (length(args) != 1 || args[1] %in% c("-h", "--help"))
     stop("Usage: xlsxToCsv TS_AAA_2014.xslx > TS.csv")
 
 f <- args[1]
 
-#f= "./TS_2014_KUM.xlsx"
 MONTHS <-
     c("Jan", "Feb", "Mrz", "Apr", "Mai", "Jun",
       "Jul", "Aug", "Sep", "Okt", "Nov", "Dez")
@@ -26,10 +26,12 @@ odf <-
             sheets, function(s)
         {
             dd. <-
-                read.xlsx2(f, sheetName = s, header = FALSE, startRow = 4)
+                read.xlsx2(
+                    f, sheetName = s, header = FALSE, startRow = 4
+                    ,colClasses = c("character", "numeric", "numeric", "character", rep("numeric", 31))
+                    )
             dd <-                # neglect rows without project-number
-                dd.[!sapply(suppressWarnings(as.numeric(as.character(dd.[,2]))),
-                       is.na),]
+                dd.[!sapply(dd.[,2], is.na),]
             if (nrow(dd) == 0)
                 NULL
             else
@@ -39,5 +41,6 @@ odf <-
                            )
         }
             ))
-write.table(odf, sep = ";",
-            row.names = FALSE, col.names = FALSE, quote = FALSE)
+write.table(
+    odf, sep = ";", row.names = FALSE, col.names = FALSE,
+    quote = FALSE, na = "")
