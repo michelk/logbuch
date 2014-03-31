@@ -35,7 +35,7 @@ odf <-
             if (nrow(dd) == 0)
                 NULL
             else
-                data.frame(Year = year, Month = s, Worker = worker,
+                data.frame(Worker = worker, Year = year, Month = s,
                            TaskName = dd[,1], ProjectNmb = dd[,2],
                            SubProjectNmb = dd[,3], dd[,seq_len(31) + 4]
                            )

@@ -58,8 +58,8 @@ ddd <-                                  # each day in a row
                 {
                     dte <-                          # date
                         as.POSIXct(
-                            sprintf("%i-%i-%i", as.numeric(r[1]), AMNT[[r[,2]]], i))
-                    data.frame(Date = dte, Person = r[,3], ProjectName = r[,4],
+                            sprintf("%i-%i-%i", as.numeric(r[,2]), AMNT[[r[,3]]], i))
+                    data.frame(Date = dte, Person = r[,1], ProjectName = r[,4],
                                ProjectNb = r[,5], ProjectSubNb = r[,6],
                                Time = as.numeric(r[,6+i]))
                 }
@@ -128,21 +128,18 @@ dfStat <-
     cs <- cbind(x, Total = rowSums(x))
     rbind(cs, Total = colSums(x))
 }
+writeCsv <- function(x,f)
+{
+    write.table(
+        x, file = f, quote = FALSE, sep = ";", col.names = NA)
+}
 ## ** Project files
 for (pn in names(hacc))
     if (!is.null(hacc[[pn]]))
-        write.csv2(
-            dfStat(hacc[[pn]]),
-            file = file.path(opt$pod, sprintf("%s.csv", pn)),
-            quote = FALSE
-            )
+        writeCsv(dfStat(hacc[[pn]]), file.path(opt$pod, sprintf("%s.csv", pn)))
 
 ## ** Worker files
 
 for (wn in names(whs))
     if (!is.null(whs[[wn]]))
-        write.csv2(
-            dfStat(whs[[wn]]),
-            file = file.path(opt$wod, sprintf("%s.csv", wn)),
-            quote = FALSE
-            )
+        writeCsv(dfStat(whs[[wn]]), file.path(opt$wod, sprintf("%s.csv", wn)))

@@ -27,10 +27,10 @@ SFP <- sprintf("\\.%s$", SUFFIX)
 fpToDate <- function(f) as.POSIXct(sub(SFP, "", basename(f)))
 dateToFp <- function(d) paste(as.character(d), SUFFIX, sep = ".")
 
-#AMNT <-                             # Month (abbr) - Number Assoc-list
-#    setNames(seq_len(12),
-#             c("Jan", "Feb", "Mrz", "Apr", "Mai", "Jun",
-#               "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"))
+AMNT <-                             # Month (abbr) - Number Assoc-list
+    setNames(seq_len(12),
+             c("Jan", "Feb", "Mrz", "Apr", "Mai", "Jun",
+               "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"))
 require('logbuch', quietly = TRUE)
 require('reshape2', quietly = TRUE)
 require('yaml',  quietly = TRUE)
@@ -74,18 +74,35 @@ dd. <-
             cbind(
                 data.frame(
                     Year = format(d, "%Y"),
-                    Month = format(d, "%m"), Day = format(d, "%d")
+                    Month = AMNT[[as.numeric(format(d, "%m"))]],
+                    Day = format(d, "%d")
                     ), dd)
         }
             ))
 dd <-
     dcast(dd., Year + Month + Proj + SubProj ~ Day, value.var = "Time")
-odd <-                                  # output-table
+odd. <-                                  # output-table
 {
     if (!is.null(opt$worker))
         cbind(Worker = opt$worker, dd)
     else
         dd
+}
+odd <-
+{
+    if (!is.null(opt$projconf))
+        do.call(
+            rbind,
+            lapply(
+                seq_len(nrow(odd.), function(i)
+                    {
+                        r <- odd.[i,]
+                        cbind(r[,1:3], )
+                    }
+                        ))
+            )
+    else
+        odd.
 }
 # TODO: mapping project-name to number
 write.table(
