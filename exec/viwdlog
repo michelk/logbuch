@@ -1,6 +1,14 @@
 #!/bin/bash
 # | Create a template and edit a wdlog-file
 
+[[  $1 == "-h"  || $1 == "--help" ]] && 
+{
+    echo "Create a template and edit a wdlog-file (WDLOG_DIR has to set in bashrc)"
+    echo ""
+    echo "Usage: viwdlog"
+    exit 0
+}
+
 [ -z ${WDLOG_DIR} ] && 
 {
     echo "Variable WDLOG_DIR not set in .{zsh,bash}rc" 1>&2
