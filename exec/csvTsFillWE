@@ -1,6 +1,14 @@
 #!/usr/bin/env Rscript
 # | Fill Weekends in a csv (row-names: date)
-f = file('stdin')
+args <- commandArgs(TRUE)
+if (args[1] %in% c("-h", "--help"))
+{
+    message(
+        "Fill Weekends in a csv\n",
+        "Usage: csvFillWE < ts.csv > ts_we.csv\n")
+    q()
+}
+f <- file('stdin')
 d. <- read.csv(f, row.names = 1)
 d <- d.[-nrow(d.), -ncol(d.)]
 t1 <- as.POSIXct(rownames(d)[1])

@@ -7,7 +7,7 @@ option_list <- list(
                 help = "Root-directory where wdlog-files are located [default %default]")
    ,make_option(c("-d", "--directory"), type = "character", default = '.',
                 help = "Root-directory where wdlog-files are located [default %default]")
-   ,make_option(c("-h", "--hours"), type = "numeric", default = 6.8,
+   ,make_option(c("-t", "--time"), type = "numeric", default = 6.8,
                 help = "Hours per day to be worked [default %default]")
     )
 parser <- OptionParser(usage = "%prog [options] file.cal", option_list=option_list)
