@@ -1,4 +1,5 @@
 #!/usr/bin/env Rscript
+# | Calculate year-hours to work
 require('getopt', quietly = TRUE)
 opt_spec <- matrix(c(
      'help'      ,'h', 0, "logical"  , "Getting help"

@@ -1,4 +1,5 @@
 #!/usr/bin/env Rscript
+# | Extract work-hours related to a certain project or porjects
 require('getopt', quietly = TRUE)
 opt_spec <- matrix(c(
    'help'   , 'h', 0, "logical"  , "Getting help"

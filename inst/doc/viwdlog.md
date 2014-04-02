@@ -5,8 +5,8 @@
 
 Description
 ===========
-Creates a template of a workday-log-file and launches your favourite editor
-with the file. 
+
+Creates a template of a workday-log-file and opens that file with the editor bind to `EDITOR` shell-variable.
 
 You have to set the shell-variable: `WDLOG_DIR` with your top level directory
 where the workday-log-files are located.

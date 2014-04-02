@@ -7,7 +7,8 @@ couple of plots and summaries, which describe your work-time.
 
 # Installation
 
-Currently the program is only tested on linux; if you use windows, it is most likely that you need Cygwin; the executables is copied to /usr/local/bin
+Currently the program is only tested on linux; if you use windows, it is most
+likely that you need Cygwin; the executables need to be copied to /usr/local/bin.
 
 ## R-package
 
@@ -69,14 +70,14 @@ workday-log-file of the current day.
 
 
 Put the follwing line in your `.screenrc`
-    
+
     bind l screen -t "vim logbuch"      9  viwdlog
 
 
 ### Using `tmux` 
 
 Put the follwing lines in your `.tmux.conf`
-    
+
     unbind l
     bind-key l new-window "viwdlog"
 
@@ -91,24 +92,7 @@ The workday-log-files should strictly follow the follwing format:
     13.00 - 15.00 | ProjectA | Report | Started with report
     15.00 - 17.00 | ProjectC | BugFix | line 34 of ProjectC fixed
 
-Currently the last entry after `:` is ignored.
-
-# Usage
-
-
-After having installed the directory structure -- and generated some first
-workday-logfiles --, you could either summarize a certain week, month or year with 
-
-    shell> summarizeWorkHours --week <path/to/week>
-    shell> summarizeWorkHours --month <path/to/month>
-    shell> summarizeWorkHours --year <path/to/year>
-
-
-Without any argument 
-
-    shell> summarizeWorkHours 
-
-The program analyses the current week, month and year.
+Currently the last entry (description) is skipped.
 
 
 

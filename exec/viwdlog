@@ -1,4 +1,5 @@
 #!/bin/bash
+# | Create a template and edit a wdlog-file
 
 [ -z ${WDLOG_DIR} ] && 
 {

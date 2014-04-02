@@ -1,4 +1,5 @@
 #!/usr/bin/Rscript
+# | Summarize and plot wdlog-files
 pkgs = c("logbuch", 'ggplot2', 'reshape2')
 es = lapply(pkgs, function(x)suppressMessages(require(x, quietly = TRUE, character.only = TRUE)))
 

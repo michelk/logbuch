@@ -1,4 +1,5 @@
 #!/usr/bin/awk -f
+# | Convert 3-column wdlog-files into 4-column wdlog-files (subprojects)
 BEGIN { 
     FS = "|" 
     OFS = "|"

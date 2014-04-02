@@ -1,5 +1,5 @@
 #!/usr/bin/env Rscript
-# | Convert exec-timesheet into csv
+# | Convert an Excel-TimeSheet into csv
 args <- commandArgs(TRUE)
 if (length(args) != 1 || args[1] %in% c("-h", "--help"))
     stop("Usage: xlsxToCsv TS_AAA_2014.xslx > TS.csv")

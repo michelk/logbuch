@@ -1,4 +1,5 @@
 #!/usr/bin/env Rscript
+# | Convert a calendar-file into wdlog-files
 suppressPackageStartupMessages(library("optparse"))
 require('logbuch', quietly = TRUE)
 option_list <- list(
