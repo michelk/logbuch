@@ -5,7 +5,7 @@ require('getopt', quietly = TRUE)
 opt_spec <- matrix(c(
      'help'      ,'h', 0, "logical"  , "Getting help"
     ,'dir'       ,'d', 1, "character", "Directory to look for wdlog-files"
-    ,'worker'    ,'w', 1, "character", "Optional name of worker; added as column"
+    ,'output'    ,'o', 1, "character", "Output xlsx-file"
     ,'projconf'  ,'p', 1, "character", "Optional filepath to project-configuration"
    )       , ncol = 5    , byrow = TRUE)
 
@@ -15,13 +15,15 @@ if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
 {
     message(
         "Program to look recursively for .wdlog-files and ",
-        "convert them to csv (stdout)\n\n")
-    cat(getopt(spec = opt_spec, usage = TRUE, command = "wdlogToCsv"))
+        "convert them to xlsx \n\n")
+    cat(getopt(spec = opt_spec, usage = TRUE, command = "wdlogToXlsx"))
     q(status=0)
 }
+
 require('logbuch', quietly = TRUE)
 require('reshape2', quietly = TRUE)
 require('yaml',  quietly = TRUE)
+require('xlsx',  quietly = TRUE)
 
 projConf <-           # project-configuration (mapping name to number)
 {
@@ -32,7 +34,9 @@ projConf <-           # project-configuration (mapping name to number)
 }
 
 fs <-
-    list.files(opt$dir, SFP, recursive = TRUE, full.names = TRUE)
+    list.files(opt$dir, "\\.wdlog$", recursive = TRUE, full.names = TRUE)
+if (length(fs) == 0)
+    stop('Could not find any .wdlog-files')
 dd <- readWdlogFiles(fs)
 odd. <-                                  # output-table
 {
@@ -48,8 +52,9 @@ odd <-
     else
         odd.
 }
-# TODO: mapping project-name to number
-write.table(
-    odd,
-    col.names = FALSE, row.names = FALSE, quote = FALSE,
-    sep = ";", na = "")
+for (m in levels(odd$Month))
+{
+    write.xlsx(
+        subset(odd, Month == m), file = opt$output,
+        sheetName = m, row.names = FALSE, showNA = FALSE)
+}
