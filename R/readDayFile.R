@@ -21,7 +21,7 @@ readDayFile <-
     dd <-         # remove any whitespace/tab except of desc
         data.frame(do.call(rbind,
                 lapply(seq_len(nrow(dd.)), function(i)
-                       c(cleanWdLogField(dd.[i,1:3]), strip(dd.[,4]))
+                       c(cleanWdLogField(dd.[i,1:3]), strip(dd.[i,4]))
                        )
                 ))
     names(dd) <- COLS
