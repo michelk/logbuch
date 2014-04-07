@@ -1,11 +1,11 @@
-list.wdfiles <-    
+list.wdfiles <-
     function       # List workday-log-files
 (
     path           # directory-path where to look for workday-log-files
-) 
+)
 {
     tryCatch(list.files(path = path
-                      , pattern = "*.wdlog"
+                      , pattern = "\\.wdlog$"
                       , full.names = TRUE
                       , recursive = TRUE
                       )
