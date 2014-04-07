@@ -12,3 +12,6 @@ NF == 3 {
     else
         print $1, $2, "",$3 
 }
+NF != 3 {
+    print $0
+    }

@@ -95,8 +95,8 @@ odd <-
                 , function(i)
             {
                 r <- odd.[i,]
-                nm <- r[,4]
-                sm <- r[,5]
+                nm <- as.character(r[,4])
+                sm <- as.character(r[,5])
                 ns <-          # project-and subproject number
                 {
                     if ( nm %in% names(projConf))
