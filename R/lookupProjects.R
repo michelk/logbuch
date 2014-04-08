@@ -2,7 +2,7 @@ lookupProjects <-
     function                            # lookup (sub-) projects number
 (
     x                     # ^ data.frame generated with readWdlogFiles
-   ,projConf              # ^ named list with
+   ,cnf              # ^ named list with
 )
 {
         do.call(
@@ -16,17 +16,12 @@ lookupProjects <-
                 sm <- as.character(r[,5])
                 ns <-          # project-and subproject number
                 {
-                    if ( nm %in% names(projConf))
+                    if ( nm %in% names(cnf))
                     {
-                        n <-
-                        {
-                            if (is.numeric(projConf[[nm]]))
-                                projConf[[nm]]
-                            else
-                                projConf[[nm]]$nb
-                        }
-                        if (is.list(projConf[[nm]]) && sm %in% names(projConf[[nm]]$sb))
-                            list(n, projConf[[nm]]$sb[[sm]])
+                        n <- cnf[[nm]]@id
+                        if (length(cnf[[nm]]@sb) > 0 &&
+                            sm %in% names(cnf[[nm]]@sb))
+                            list(n, cnf[[nm]]@sb[[sm]])
                         else
                             list(n, NA)
                     }

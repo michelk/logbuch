@@ -5,8 +5,8 @@ readWdlogFiles <-
 )
 {
 
-    fpToDate <- function(f) as.POSIXct(sub(SFP, "", basename(f)))
-    dateToFp <- function(d) paste(as.character(d), SUFFIX, sep = ".")
+    fpToDate <- function(f) as.POSIXct(sub( "\\.wdlog$", "", basename(f)))
+    dateToFp <- function(d) paste(as.character(d), "wdlog", sep = ".")
 
     bfs <- basename(fs)
 

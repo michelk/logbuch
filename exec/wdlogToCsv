@@ -26,7 +26,7 @@ require('yaml',  quietly = TRUE)
 projConf <-           # project-configuration (mapping name to number)
 {
     if (!is.null(opt$projconf))
-        yaml.load_file(opt$projconf)
+        readProjConf(opt$projconf)
     else
         NULL
 }
@@ -34,13 +34,11 @@ projConf <-           # project-configuration (mapping name to number)
 fs <-
     list.files(opt$dir, SFP, recursive = TRUE, full.names = TRUE)
 dd <- readWdlogFiles(fs)
+
 odd. <-                                  # output-table
-{
-    if (!is.null(opt$worker))
-        cbind(Worker = opt$worker, dd)
-    else
-        dd
-}
+    cbind(
+        Worker = {if (!is.null(opt$worker)) opt$worker else NA}
+       ,dd)
 odd <-
 {
     if (!is.null(opt$projconf))

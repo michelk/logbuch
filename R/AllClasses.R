@@ -1,4 +1,12 @@
 setClass(
+    'ProjConf',
+    representation(
+        name = "character"    # ^ name of project
+       ,id   = "character"    # ^ id
+       ,sb   = "list"     # ^ named list with name and number
+        )
+    )
+setClass(
     "ProjectDay",
     representation(
         name = "character"    # ^ name of the project

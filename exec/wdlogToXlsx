@@ -25,36 +25,17 @@ require('reshape2', quietly = TRUE)
 require('yaml',  quietly = TRUE)
 require('xlsx',  quietly = TRUE)
 
-projConf <-           # project-configuration (mapping name to number)
-{
-    if (!is.null(opt$projconf))
-        yaml.load_file(opt$projconf)
-    else
-        NULL
-}
 
+cnf <-           # project-configuration (mapping name to number)
+    readProjConf(opt$projconf)
 fs <-
     list.files(opt$dir, "\\.wdlog$", recursive = TRUE, full.names = TRUE)
 if (length(fs) == 0)
     stop('Could not find any .wdlog-files')
 dd <- readWdlogFiles(fs)
 odd. <-                                  # output-table
-{
-    if (!is.null(opt$worker))
-        cbind(Worker = opt$worker, dd)
-    else
-        dd
-}
-odd <-
-{
-    if (!is.null(opt$projconf))
-        lookupProjects(odd., projConf)
-    else
-        odd.
-}
-for (m in levels(odd$Month))
-{
-    write.xlsx(
-        subset(odd, Month == m), file = opt$output,
-        sheetName = m, row.names = FALSE, showNA = FALSE)
-}
+    cbind(Worker = NA ,dd)
+odd <- lookupProjects(odd., cnf)
+
+writeXlsx(odd, opt$output, 'Month')
+
