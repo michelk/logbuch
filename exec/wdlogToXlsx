@@ -84,7 +84,7 @@ names(total_) <-
            )
 total <-
     cbind(transform(total_, Monat = months.abbr.de[as.numeric(Monat)])
-          , Diff = total_$Sollstunden - total_$Total)
+          , Diff = total_$Total - total_$Sollstunden)
 
 writeXlsx(c(list(Total = total),md), opt$output)
 
