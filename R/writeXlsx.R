@@ -1,15 +1,14 @@
 writeXlsx <-
-    function(x, file, colSheets)        # wrapper function to write custom xlsx
+    function(sheets, file)        # wrapper function to write custom xlsx
 {
     writeXlsx. <- function(x,f,nm, append)
-        write.xlsx(x[xs == nm,], file = f,
+        write.xlsx(x, file = f,
             sheetName = nm, row.names = FALSE, showNA = FALSE, append = append)
-    xs <- x[,colSheets]                 # x subset
-    mns <- levels(factor(xs))
-    writeXlsx.(x, file, mns[1], append = FALSE)
-    for (m in mns[-1])
+    nms <- names(sheets)
+    writeXlsx.(sheets[[1]], file, nms[1], append = FALSE)
+    for (nm in nms[-1])
     {
-        writeXlsx.(x, file, m, append = TRUE)
+        writeXlsx.(sheets[[nm]], file, nm, append = TRUE)
     }
 
 }

@@ -35,7 +35,7 @@ readWdlogFiles <-
                 }
                 cbind(
                     data.frame(
-                        Year = format(d, "%Y"),
+                        Year = as.numeric(format(d, "%Y")),
                         Month = months.abbr.de[[as.numeric(format(d, "%m"))]],
                         Day = format(d, "%d")
                         ), dd)

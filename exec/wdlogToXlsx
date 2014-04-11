@@ -6,11 +6,14 @@ opt_spec <- matrix(c(
      'help'      ,'h', 0, "logical"  , "Getting help"
     ,'dir'       ,'d', 1, "character", "Directory to look for wdlog-files"
     ,'output'    ,'o', 1, "character", "Output xlsx-file"
-    ,'projconf'  ,'p', 1, "character", "Optional filepath to project-configuration"
+    ,'projconf'  ,'p', 1, "character", "Filepath to project-configuration"
+    ,'year'      ,'y', 1, 'numeric'  , "Year of processing"
+    ,'hours'     ,'u', 1, "numeric"  , "Optional hours per day to be worked"
    )       , ncol = 5    , byrow = TRUE)
 
 # Process command-line arguments
 opt <- getopt(spec = opt_spec)
+
 if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
 {
     message(
@@ -33,9 +36,55 @@ fs <-
 if (length(fs) == 0)
     stop('Could not find any .wdlog-files')
 dd <- readWdlogFiles(fs)
-odd. <-                                  # output-table
-    cbind(Worker = NA ,dd)
-odd <- lookupProjects(odd., cnf)
+odd. <- cbind(Worker = NA ,dd)          # Dummy column for lookupProjects
+odd_ <- lookupProjects(odd., cnf)
+odd <- sumSubProjHoursWithoutNmb(odd_, cnf)
 
-writeXlsx(odd, opt$output, 'Month')
+## Create month data
+oddm <- odd[,"Month"]                 # Months
+mns <- levels(factor(oddm))
+md <-                               # month-data
+    setNames(
+        lapply(
+            mns, function(m)
+        {
+            dd. <- odd[oddm == m,]
+            dd <-                       # order and skip worker column
+                dd.[order(dd.$ProjNb, decreasing = TRUE),-1]
+            ## To some statistics
+            ir <- 6:ncol(dd)
+            dd. <-
+                cbind(dd, Total = rowSums(dd[,ir], na.rm = TRUE))
+            rbind(
+                dd.,
+                Total = c(rep(NA, 5),
+                colSums(dd.[,c(ir, ncol(dd.))], na.rm = TRUE)))
+        }
+            )
+        ,mns)
+
+total. <-
+    dfSumStat(procWorkerHours(wideToLongData(odd_))[[1]])
+whs <-
+    yearWorkHours(opt$year, opt$hours, sumHours = FALSE)
+
+total_<-
+    merge(total., whs, by.x = 0, by.y = 0)
+names(total_)[1] <- 'Monat'
+nbs <- sapply(cnf, function(cn) cn@id)
+names(total_) <-
+    sapply(names(total_), function(nm.)
+       {
+          nm <- sub("^X", "", nm.)
+          if (nm %in% nbs)
+              names(nbs)[which(nm == nbs)]
+          else
+              nm
+       }
+           )
+total <-
+    cbind(transform(total_, Monat = months.abbr.de[as.numeric(Monat)])
+          , Diff = total_$Sollstunden - total_$Total)
+
+writeXlsx(c(list(Total = total),md), opt$output)
 

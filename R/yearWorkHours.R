@@ -1,5 +1,5 @@
 yearWorkHours <-
-    function(year, hours)
+    function(year, hours, sumHours = TRUE)
 {
     aStart <- as.POSIXct(sprintf("%s-01-01", year))
     aEnd <- as.POSIXct(sprintf("%s-12-31", year))
@@ -17,6 +17,9 @@ yearWorkHours <-
                  sum(subset(ddf, MonthNumber == n)$Hours)
                  )
           )
-    ddmf <- data.frame(Arbeitsstunden = ddm[1,], row.names = colnames(ddm))
-    rbind(ddmf, Summe = sum(ddm))
+    ddmf <- data.frame(Sollstunden = ddm[1,], row.names = colnames(ddm))
+    if (sumHours)
+        rbind(ddmf, Total = sum(ddm))
+    else
+        ddmf
 }
