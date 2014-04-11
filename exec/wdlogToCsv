@@ -22,6 +22,7 @@ if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
 require('logbuch', quietly = TRUE)
 require('reshape2', quietly = TRUE)
 require('yaml',  quietly = TRUE)
+require('methods',  quietly = TRUE)
 
 projConf <-           # project-configuration (mapping name to number)
 {
@@ -32,7 +33,7 @@ projConf <-           # project-configuration (mapping name to number)
 }
 
 fs <-
-    list.files(opt$dir, SFP, recursive = TRUE, full.names = TRUE)
+    list.files(opt$dir, "\\.wdlog$", recursive = TRUE, full.names = TRUE)
 dd <- readWdlogFiles(fs)
 
 odd. <-                                  # output-table

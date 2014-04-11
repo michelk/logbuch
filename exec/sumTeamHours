@@ -3,6 +3,7 @@
 # TODO: assoc project-name -- number
 ## * Command-line parsing
 
+require('logbuch', quietly = TRUE)
 require('optparse', quietly = TRUE)
 option_list <- list(
     make_option(
