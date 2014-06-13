@@ -6,16 +6,14 @@ procProjectHours <-
         lapply(
             projs, function(pn)
         {
-            p <-                        # project-data
-                subset(x, ProjectNb == pn)
+            p <- subset(x, ProjectNb == pn) # project-data
             dd <-
                 do.call(
                     rbind
                   , lapply(               # hours subproject per worker
                       levels(factor(p$ProjectSubNb)), function(spn)
                       {
-                          sp <-
-                              subset(p, ProjectSubNb == spn)
+                          sp <- subset(p, ProjectSubNb == spn)
                           wh <-          # hours per worker
                               sapply(
                                   levels(sp$Person), function(wn)
@@ -29,7 +27,7 @@ procProjectHours <-
            else
            {
                i <-                        # skip columns all being 0
-                   as.logical(apply(dd, 2, function(r) all(sapply(r, function(x) x != 0))))
+                   as.logical(apply(dd, 2, function(r) any(sapply(r, function(x) x != 0))))
                subset(dd, select  = i)
            }
         }), projs)

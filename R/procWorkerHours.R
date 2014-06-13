@@ -1,8 +1,8 @@
 procWorkerHours <-
     function(x)
 {
-    x[is.na(x$Person), 'Person'] <-     # deal with Person == NA
-        'Unkown'
+    if (length(which(is.na(x$Person))) > 0)
+        x[is.na(x$Person), 'Person'] <-   'Unkown' # deal with Person == NA
     pers <- levels(factor(x$Person))
     setNames(lapply(
         pers, function(wn)

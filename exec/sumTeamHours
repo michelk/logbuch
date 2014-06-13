@@ -3,7 +3,7 @@
 # TODO: assoc project-name -- number
 ## * Command-line parsing
 
-require('logbuch', quietly = TRUE)
+suppressPackageStartupMessages(require('logbuch'))
 require('optparse', quietly = TRUE)
 option_list <- list(
     make_option(

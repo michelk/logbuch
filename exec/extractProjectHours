@@ -19,8 +19,8 @@ if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
 }
 #opt<- list(
 #    pattern = "Lim"
-#   ,from = "2013-04-01"
-#   ,to = "2013-06-30"
+#   ,from = "2013-12-01"
+#   ,to = "2014-04-01"
 #)
 if (is.null(opt$format)) opt$format <- '%Y-%m-%d'
 if (is.null(opt$from)) stop("Please specify time when to start looking")
