@@ -1,5 +1,8 @@
-tStampToHours <-           # convert time stamps to durations
-    function(x)
+tStampToHours <-
+    function                        # ^ convert time stamps to durations
+(
+    x                                   # ^ data.frame 10.00 -12.00 in first row
+)
 {
     hoursSE <-                          # hours start-end-points
         strsplit(as.vector(x), split = "-")
@@ -10,4 +13,4 @@ tStampToHours <-           # convert time stamps to durations
                as.numeric(difftime(h[2],  h[1], units = "hours"))
            }
            )
-}
+}                                       # ^ data.frame with durations

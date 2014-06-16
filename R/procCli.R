@@ -32,5 +32,4 @@ procCli <-
         opt$ARGS <- NULL
         opt            # Alist with command-line arguments
     }
-    ### Returns a named list with given command-line arguments
-}
+} # ^ Named list with given command-line arguments

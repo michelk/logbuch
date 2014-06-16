@@ -1,5 +1,9 @@
 sumSubProjHoursWithoutNmb <-
-    function(x,cnf)        # sum subproject-hours not specified in cnf
+    function               # Sum subproject-hours not specified in cnf
+(
+    x
+   ,cnf
+)
 {
     sumSubPrj <-
         function(d,l, cnf)

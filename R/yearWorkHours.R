@@ -1,5 +1,10 @@
 yearWorkHours <-
-    function(year, hours, sumHours = TRUE)
+    function                            # ^ Calculate year hours
+(
+    year                                # ^ year to calculate (eg. '2014')
+  , hours                               # ^ hours to work per day
+  , sumHours = TRUE                     # ^ should hours get summed
+)
 {
     aStart <- as.POSIXct(sprintf("%s-01-01", year))
     aEnd <- as.POSIXct(sprintf("%s-12-31", year))
@@ -22,4 +27,4 @@ yearWorkHours <-
         rbind(ddmf, Total = sum(ddm))
     else
         ddmf
-}
+}                                  # ^ Data frame with Month and Hours

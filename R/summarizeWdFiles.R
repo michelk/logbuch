@@ -13,5 +13,4 @@ summarizeWdFiles <-
 
     # Generate a data-frame
     as.data.frame(lst)
-    ### Returns a data-frame with summed workhours per project and day
-}
+}   # ^ Returns a data-frame with summed workhours per project and day

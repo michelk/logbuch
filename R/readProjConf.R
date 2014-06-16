@@ -1,7 +1,7 @@
 readProjConf <-
-    function                            # read project configuration in yaml
+    function                            # ^ read project configuration in yaml
 (
-    f                                   # file-path to yaml-file
+    f                                   # ^ file-path to yaml-file
 )
 {
     dd <-
@@ -21,4 +21,4 @@ readProjConf <-
             )
     }
         ), ddn)
-}
+}                                  # ^ List with project-configuration

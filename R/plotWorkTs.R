@@ -1,15 +1,15 @@
-plotWorkTs <- 
-    function       # Plot a work-week data-frame
+plotWorkTs <-
+    function       # ^ Plot a work-week data-frame
 (
-    plot.df          # data-frame with date as row-name and project as columns
-  , what = 'ts'    # which aspect to plot; could be either 'ts' or 'project'
-  , hours          # hours to work per time unit
+    plot.df        # ^ data-frame with date as row-name and project as columns
+  , what = 'ts'    # ^ which aspect to plot; could be either 'ts' or 'project'
+  , hours          # ^ hours to work per time unit
         = NULL
-  , title_date     # date-string which should appear in the title
+  , title_date     # ^ date-string which should appear in the title
 )
 {
-     if (! what %in% c('ts', 'project') )  
-         stop("Only 'ts' or 'project' in `what` allowed") 
+     if (! what %in% c('ts', 'project') )
+         stop("Only 'ts' or 'project' in `what` allowed")
 
 
      plot_data <-  # data to plot for a timeseries (ts) or projects
@@ -19,13 +19,12 @@ plotWorkTs <-
             , 'project' = ggplot(plot.df
                                , aes(x = Projects, y = Hours, fill = Date))
          )
-     plot_data[[what]]  + 
-        geom_bar(stat = "identity") + 
+     plot_data[[what]]  +
+        geom_bar(stat = "identity") +
         geom_hline(yintercept = hours) +
         ggtitle(
              paste(title_date
              , "      Total Workhours: ", sum(plot.df$Hours)
              )
         )
-     ### Returns a list of length 2 with a time-series and project plot
-}
+}   # ^ Returns a list of length 2 with a time-series and project plot

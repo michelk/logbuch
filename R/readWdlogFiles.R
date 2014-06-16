@@ -1,7 +1,7 @@
 readWdlogFiles <-
-    function
+    function                            # ^ Read a series of `.wdlog`-files
 (
-    fs
+    fs                                  # ^ file-paths to `.wdlog`-files
 )
 {
 
@@ -42,4 +42,4 @@ readWdlogFiles <-
             }
                 ))
     dcast(dd., Year + Month + Proj + SubProj ~ Day, value.var = "Time")
-}
+}                             # ^ Data frame with hours worked per day

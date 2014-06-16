@@ -1,9 +1,9 @@
 selectWdFiles <-
-  function                              # ^ Select wdlog-files lying in certain range
+  function               # ^ Select wdlog-files lying in certain range
 (
-  fs                                    # wdlog-files
- ,from                                  # starting date-object
- ,to                                    # ending date-object
+  fs                                    # ^ wdlog-files
+ ,from                                  # ^ starting date-object
+ ,to                                    # ^ ending date-object
 )
 {
   f <- function(x)
@@ -13,4 +13,4 @@ selectWdFiles <-
       d > from && d < to
     }
   Filter(f,fs)
-}
+}                                       # ^ selection of wdlog-files

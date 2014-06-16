@@ -1,5 +1,8 @@
 procWorkerHours <-
-    function(x)
+    function                            # ^ process worker Hours
+(
+    x                                   # ^ data.frame
+)
 {
     x[is.na(x$Person), 'Person'] <-     # deal with Person == NA
         'Unkown'
@@ -30,4 +33,4 @@ procWorkerHours <-
             )
     }
         ), pers)
-}
+}                         # ^ data.frame with summarized project hours

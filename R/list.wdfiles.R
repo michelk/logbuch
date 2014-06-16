@@ -1,7 +1,7 @@
 list.wdfiles <-
-    function       # List workday-log-files
+    function       # ^ List workday-log-files
 (
-    path           # directory-path where to look for workday-log-files
+    path           # ^ directory-path where to look for workday-log-files
 )
 {
     tryCatch(list.files(path = path
@@ -10,5 +10,4 @@ list.wdfiles <-
                       , recursive = TRUE
                       )
         , error = function(e) stop("Could not find any *.wdlog-files"))
-    ### Returns a vector with path-names of workday-log-files
-}
+} # ^ Returns a vector with path-names of workday-log-files

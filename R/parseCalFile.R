@@ -1,10 +1,10 @@
 parseCalFile <-
-    function
+    function                            # ^ Parse a unix `.cal`-file
 (
-    file
-   ,year
-   ,monthSep = '/'
-   ,rangeSep = '-'
+    file                                # ^ file-path
+   ,year                                # ^ year the file refers to
+   ,monthSep = '/'                      # ^ month seperator
+   ,rangeSep = '-'                      # ^ range seperator
 )
 {
     parseDate <-
@@ -65,4 +65,4 @@ parseCalFile <-
         ,lapply(
             seq_len(nrow(ddIn))
             ,function(i) parseDate(as.character(ddIn[i,]), year)))
-}
+}               # ^ data.frame with 'Date', 'Categorie', and 'Subject'

@@ -1,11 +1,11 @@
 sumSubProjects <-
-    function                # sum hours of subprojects and concat desc
+    function                # ^ sum hours of subprojects and concat desc
 (
-    x                                   # data.frame from wdlog-file
-   ,projCol                             # column with project-names
-   ,subProjCol                          # column with subproject-names
-   ,timeCol                             # column with hours
-   ,descCol = NULL                      # column with description
+    x                                   # ^ data.frame from wdlog-file
+   ,projCol                             # ^ column with project-names
+   ,subProjCol                          # ^ column with subproject-names
+   ,timeCol                             # ^ column with hours
+   ,descCol = NULL                      # ^ column with description
 )
 {
     do.call(rbind,
@@ -35,4 +35,4 @@ sumSubProjects <-
                     )
                 )
         ))
-}
+}                               # ^ data.frame with summed subprojects

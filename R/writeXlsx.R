@@ -1,5 +1,9 @@
 writeXlsx <-
-    function(sheets, file)        # wrapper function to write custom xlsx
+    function        # ^ wrapper function to write custom xlsx
+(
+    sheets                              # ^ data.frames
+  , file                                # ^ filepath of output
+)
 {
     writeXlsx. <- function(x,f,nm, append)
         write.xlsx(x, file = f,
@@ -10,5 +14,4 @@ writeXlsx <-
     {
         writeXlsx.(sheets[[nm]], file, nm, append = TRUE)
     }
-
-}
+}                                       # ^ Nothing useful

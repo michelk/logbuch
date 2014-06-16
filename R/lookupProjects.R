@@ -1,8 +1,8 @@
 lookupProjects <-
-    function                            # lookup (sub-) projects number
+    function                         # ^ lookup (sub-) projects number
 (
     x                     # ^ data.frame generated with readWdlogFiles
-   ,cnf              # ^ named list with
+   ,cnf                   # ^ named list with project configuration
 )
 {
         do.call(
@@ -33,4 +33,4 @@ lookupProjects <-
             }
                         )
             )
-}
+}                           # ^ data.frame with lookuped project-names

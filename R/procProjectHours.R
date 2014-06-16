@@ -1,5 +1,8 @@
 procProjectHours <-
-    function(x)                         # process project-hours
+    function                            # ^ Process project-hours
+(
+    x                                # ^ Data frame with hours worked
+)
 {
     projs <- levels(factor(x$ProjectNb))
     setNames(
@@ -24,4 +27,4 @@ procProjectHours <-
                          )
                 )
         }), projs)
-}
+}                                       # ^ Summarizing data.frame

@@ -1,8 +1,8 @@
 wdlogHeader <-
-    function                  # ^ create a header-line for wdlog-files
+    function                  # ^ Create a header-line for wdlog-files
 (
-    d                                   # ^ date object
+    d                                   # ^ Date object
 )
 {
-    format(d, "Date : %A %d %B %Y")     # ^ Returns a string
-}
+    format(d, "Date : %A %d %B %Y")
+}                                       # ^ Header string

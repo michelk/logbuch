@@ -1,12 +1,12 @@
 readDayFile <-
-    function # ^ Read in a day record file and return a 'Workday'
+    function      # ^ Read in a day record file (`.wdlog`)
+### ^  contents should look like:
+### ^  Date : Monday, 18 October 2011
+### ^  08.00 - 10.00  |   <Project>   | <subproject>  | Description
+### ^  10.00 - 12.00  |   <Project>   | <subproject2> | Description
 (
     x # ^ character; filepath to day record-file with '.wdlog' ending;
-         #  with eg. contents :
-         #  Date : Monday, 18 October 2011
-         #  08.00 - 10.00  |   <Project>   | <subproject>  | Description
-         #  10.00 - 12.00  |   <Project>   | <subproject2> | Description
-   ,subProj = FALSE             # should subprojects be kept seperated
+   ,subProj = FALSE           # ^ should subprojects be kept seperated
 )
 {
     COLS <- c("Time", "Proj", "SubProj", "Desc")
@@ -54,5 +54,5 @@ readDayFile <-
             ,subject = as.character(ddp$Desc)
             )
     }
-}
+}                                       # ^ 'Workday'
 

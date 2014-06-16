@@ -1,5 +1,8 @@
 wideToLongData <-
-    function(x)                         # convert from long-format to wide
+    function                   # ^ convert from long-format to wide
+(
+    x                                   # data.frame
+)
 {
 
     NBM <- 31                           # Number of days per month
@@ -30,4 +33,4 @@ wideToLongData <-
                 )
             )
     dd[order(dd$Date),]
-}
+}                                       # ^ reshaped data.frame

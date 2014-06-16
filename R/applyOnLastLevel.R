@@ -1,5 +1,5 @@
 applyOnSecondLevel <-
-    function               # ^ go over levels and apply certain function
+    function             # ^ go over levels and apply certain function
 (
     x         # ^ data.frame
    ,valueCol  # ^ column with values to apply function to (length = 2)
@@ -17,4 +17,4 @@ applyOnSecondLevel <-
             )
     }
         )
-}                                   # ^ data.frame with applied function
+}                                 # ^ data.frame with applied function

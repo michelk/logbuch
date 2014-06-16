@@ -4,10 +4,10 @@ writeWdlog <-
     dd            # ^ data-frame with date, categorie, subject columns
    ,path          # ^ root-directory where wdlog-files are located
    ,hours         # ^ hours per day to be worked
-   ,dir_struct =  # ^ directory date-format (see ?strptime)
-    "%Y/%m/%V"    #   eg '2013/12/51'
-   ,file_struct = # ^ file date-format (see ?strptime)
-    "%F.wdlog"    #   eg '2013-12-05.wdlog'
+   ,dir_struct =  # ^ directory date-format (see ?strptime) eg '2013/12/51'
+    "%Y/%m/%V"
+   ,file_struct = # ^ file date-format (see ?strptime) eg '2013-12-05.wdlog'
+    "%F.wdlog"
    ,col_sep =     # ^ column-seperator in wdlog-file
     " | "
 )
@@ -53,5 +53,4 @@ writeWdlog <-
             askForAction(wd_lines, wd_file)
         }
     }
-    ## ^ Returns nothing useful; files are written to hard-disk
-}
+}           # ^ Nothing useful; files are written to hard-disk
