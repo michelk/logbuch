@@ -4,14 +4,15 @@ readWdlogFiles <-
     fs                                  # ^ file-paths to `.wdlog`-files
 )
 {
-
     fpToDate <- function(f) as.POSIXct(sub( "\\.wdlog$", "", basename(f)))
     dateToFp <- function(d) paste(as.character(d), "wdlog", sep = ".")
 
     bfs <- basename(fs)
 
     dts <-                                  # all days in date-range
-        seq(fpToDate(fs[1]), fpToDate(fs[length(fs)]), by = "day")
+        as.POSIXct(format(
+            seq(fpToDate(fs[1]), fpToDate(fs[length(fs)]), by = "day")
+           ,"%Y-%m-%d"))
     dd. <-
         do.call(
             rbind,
@@ -22,7 +23,7 @@ readWdlogFiles <-
                 {
                     if (dateToFp(d) %in% bfs)
                         readDayFile( # could also emmit NULL, if parsing fails
-                                    fs[which(bfs == d)], subProj = TRUE)
+                                    fs[which(bfs == dateToFp(d))], subProj = TRUE)
                     else
                         NULL
                 }

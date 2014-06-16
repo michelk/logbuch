@@ -27,8 +27,6 @@ require('logbuch', quietly = TRUE)
 require('reshape2', quietly = TRUE)
 require('yaml',  quietly = TRUE)
 require('xlsx',  quietly = TRUE)
-
-
 cnf <-           # project-configuration (mapping name to number)
     readProjConf(opt$projconf)
 fs <-
@@ -50,7 +48,7 @@ md <-                               # month-data
         {
             dd. <- odd[oddm == m,]
             dd <-                       # order and skip worker column
-                dd.[order(dd.$ProjNb, decreasing = TRUE),-1]
+                dd.[order(dd.$ProjNb, dd.$SubProjNb),-1]
             ## To some statistics
             ir <- 6:ncol(dd)
             dd. <-
