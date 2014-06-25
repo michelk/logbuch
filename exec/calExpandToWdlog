@@ -23,6 +23,6 @@ if( file.access(file) == -1) {
         dd =
         calDays[!sapply(calDays[,1], isWeekend), ] # filter weekends
        ,path = opt$directory
-       ,hours = opt$hours
+       ,hours = opt$time
         )
 }

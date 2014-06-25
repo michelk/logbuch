@@ -23,8 +23,9 @@ if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
     q(status=0)
 }
 
-require('logbuch', quietly = TRUE)
+suppressPackageStartupMessages(require('logbuch'))
 require('reshape2', quietly = TRUE)
+require('methods', quietly = TRUE)
 require('yaml',  quietly = TRUE)
 require('xlsx',  quietly = TRUE)
 cnf <-           # project-configuration (mapping name to number)
