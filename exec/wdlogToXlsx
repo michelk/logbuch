@@ -48,8 +48,14 @@ md <-                               # month-data
             mns, function(m)
         {
             dd. <- odd[oddm == m,]
-            dd <-                       # order and skip worker column
+            dd_ <-                   # order and skip worker column
                 dd.[order(dd.$ProjNb, dd.$SubProjNb),-1]
+            dd.na <- dd_[is.na(dd_$SubProjNb),]
+            dd <-      # deal with subproj-NA values
+                rbind(
+                      dd_[!is.na(dd_$SubProjNb),]
+                     ,dd.na[order(as.numeric(as.character(dd.na$ProjNb))),]
+                      )
             ## To some statistics
             ir <- 6:ncol(dd)
             dd. <-

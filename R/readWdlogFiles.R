@@ -4,6 +4,7 @@ readWdlogFiles <-
     fs                                  # ^ file-paths to `.wdlog`-files
 )
 {
+    require('reshape2', quietly = TRUE)
     fpToDate <- function(f) as.POSIXct(sub( "\\.wdlog$", "", basename(f)))
     dateToFp <- function(d) paste(as.character(d), "wdlog", sep = ".")
 

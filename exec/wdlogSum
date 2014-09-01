@@ -1,0 +1,12 @@
+#!/usr/bin/env Rscript
+args <- commandArgs(TRUE)
+f <- args[1]
+require('methods', quietly = TRUE)
+require('logbuch', quietly = TRUE)
+require('MASS', quietly = TRUE)
+
+dd <-
+    readDayFile(f)
+df <-
+    data.frame(Date = dd@date, Project = dd@topic, Subject= dd@subject, Hours = dd@hours)
+write.matrix(as.matrix(df))
