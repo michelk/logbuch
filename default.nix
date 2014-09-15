@@ -9,7 +9,7 @@ with pkgs.rPackages;
                                                                                                                                                                        
 {                                                                                                                                                                      
   logbuch = buildRPackage {
-    name = "logbuch-1.1";
+    name = "r-logbuch-1.1";
     src = ./.;
     propagatedBuildInputs = [ggplot2 reshape2 getopt optparse yaml];
   };
