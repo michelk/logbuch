@@ -16,8 +16,8 @@ writeWdlog <-
     askForAction <-
         function(wd_lines,wd_file)              # respond to user-interaction
         {
-            action <-
-                readline(prompt= "What should be done?\n\treplace (r), append (a), skip (Enter)\n")
+            cat("What should be done?\n\treplace (r), append (a), skip (Enter) \n")
+            action = readLines(file('stdin'), n=1)
             if (action == "")
                 return(invisible(NULL))
             else if (! action %in% c("r","a") )
@@ -39,7 +39,7 @@ writeWdlog <-
             format(as.POSIXct("2000-01-01 00:00:00") + (hours * 3600), "%H.%M")
         time <- paste("00.00", end_time, sep = " - ")
         wd_line <-
-            paste(time, as.character(dd[i,2]), as.character(dd[i,3]), sep = col_sep)
+            paste(time, as.character(dd[i,2]), "", as.character(dd[i,3]), sep = col_sep)
         wd_lines = c(wd_header, wd_line)
         if (!file.exists(wd_file))
         {

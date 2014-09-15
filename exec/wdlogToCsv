@@ -19,7 +19,7 @@ if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
     cat(getopt(spec = opt_spec, usage = TRUE, command = "wdlogToCsv"))
     q(status=0)
 }
-require('logbuch', quietly = TRUE)
+suppressPackageStartupMessages(require('logbuch', quietly = TRUE))
 require('reshape2', quietly = TRUE)
 require('yaml',  quietly = TRUE)
 require('methods',  quietly = TRUE)
