@@ -38,9 +38,9 @@ for (x in names(opt))
     workdays.summed <- # workhours per project and day (data-frame)
         summarizeWdFiles(log_files)
     writeSumCsv(                   # write csv-out
-                workdays.summed
-                ,file.path(opt[[x]], 'TS.csv')
-                )
+        workdays.summed
+       ,file.path(opt[[x]], 'TS.csv')
+        )
     out.dfs <- # list of two data-frames: time-series and project
         summarizeTus(
             ts.df = workdays.summed

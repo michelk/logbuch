@@ -1,0 +1,30 @@
+## Port to listen on
+port : 3333
+    
+## Relative to which directory are the data-files located
+root-dir : 
+
+## CSV with current projects
+projects-csv : 
+
+## Directory where subprojects are described
+projects-dir : data/projekte/
+
+## CSV with staff
+staff-csv : data/mitarbeiter.csv
+ 
+## File path to logo
+logo-img : www/logo.png
+
+## Where to write web-input
+db-csv : data/db.csv
+
+## data file
+wdlog-csv :  data/wdlog.csv
+
+## Currently no implemented
+#data-sources :
+#   - data/wdlogs/
+#   - data/wdlog.xlsx
+#   - data/wdlog.csv
+#   - data/wdlog-www.csv
