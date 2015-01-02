@@ -3,6 +3,7 @@
 require('getopt', quietly = TRUE)
 opt_spec <- matrix(c(
    'help'   , 'h', 0, "logical"  , "Getting help"
+  , 'dir'   , 'd', 1, "character", "Directory to look for wdlog-files"
   , 'pattern', 'p', 1, "character", "Pattern to match against Projects"
   , 'from'   , 'f', 1, "character", "Starting Time"
   , 'to'     , 't', 1, "character", "Ending Time"
@@ -23,13 +24,14 @@ if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
 #   ,to = "2014-04-01"
 #)
 if (is.null(opt$format)) opt$format <- '%Y-%m-%d'
+if (is.null(opt$dir)) opt$dir <- '.'
 if (is.null(opt$from)) stop("Please specify time when to start looking")
 if (is.null(opt$to)) opt$to <- format(Sys.time(), "%Y-%m-%d")
 
 require("logbuch", quietly = TRUE)
 wdf <-
   selectWdFiles(
-    list.wdfiles(".")
+    list.wdfiles(opt$dir)
    ,as.POSIXct(opt$from)
    ,as.POSIXct(opt$to)
     )
