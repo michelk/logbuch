@@ -10,6 +10,6 @@ Description: This package helps to summarize work-day record-files.
    shipped within this package -- summarizes your work-time and projects-time.
    You have to have fixed directory structure. The program then creates a
    couple of plots and summaries, which describe your work-time.
-Imports: ggplot2, reshape2, getopt, optparse, yaml, xlsx
+Imports: ggplot2, reshape2, getopt, optparse, yaml, xlsx, shiny
 License: GPL
 LazyLoad: yes

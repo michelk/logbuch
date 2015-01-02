@@ -35,12 +35,10 @@ if (length(arguments$args) > 1)
 
 #f <- "./test.csv"
 ## * Parameters
-NBM <- 31                                # Number of days per month
 ## * Data Processing
 
 ## ** Read data in
-dd <-                                   # read all data in
-    read.table(f, sep = ";", stringsAsFactors = FALSE)[,1:(NBM+6)]
+dd <- readWdlogcsv(f)                                   # read all data in
 ddd <- wideToLongData(dd)               # each day in a row
 ## ** Process Project-Hours
 hacc <- procProjectHours(ddd)

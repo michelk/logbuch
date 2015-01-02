@@ -1,0 +1,62 @@
+#!/usr/bin/env Rscript
+require('getopt', quietly = TRUE)
+opt_spec <- matrix(c(
+    'help'                , 'h', 0, "logical"  , "Getting help"
+  , 'print-default-config', 'p', 0, "logical"  , "Write default-config to stdout"
+  , 'config'              , 'f', 1, "character", "Filepath to config-file"
+    ), ncol = 5, byrow = TRUE)
+
+                                        # Process command-line arguments
+opt <- getopt(spec = opt_spec)
+if ( !is.null(opt$help) || length(commandArgs(TRUE)) == 0 )
+{
+    cat(getopt(spec = opt_spec, usage = TRUE, command = "logbuch-server"))
+    q(status=0)
+}
+if (!is.null(opt[["print-default-config"]]))
+{
+    cfg_dflt <-
+        system.file("config-templates", "logbuch-server-settings.yaml", package = "logbuch")
+    system(sprintf("cat %s", cfg_dflt))
+    q(status = 0)
+}
+
+require('yaml', quietly = TRUE)
+require('shiny', quietly = TRUE)
+require('logbuch', quietly = TRUE)
+
+
+cfg <- yaml.load_file(opt$config)
+
+require('ggplot2')
+readCsv <- function(f, ...) read.table(f, sep = ";", header = TRUE, ...)
+readSubPrjFs <- function(d)
+{
+    pfs <-
+        list.files(d, "\\.csv$")
+    prjnms <-
+        sub("\\.csv$", "", pfs)
+    setNames(lapply(pfs, function(f) readCsv(file.path(d,f))), prjnms)
+}
+## TODO: merge data-sources
+WD_CSV <- cfg[["wdlog-csv"]]
+PRJ_CSV <- cfg[["projects-csv"]]
+PRJ_DIR <- cfg[["projects-dir"]]
+DB_CSV <- cfg[["db-csv"]]
+MA_CSV <- cfg[["staff-csv"]]
+
+prj <- readCsv(PRJ_CSV, row.names = 1)     # predefined projects
+sprj <- readSubPrjFs(PRJ_DIR)  # subprojects
+mas <- read.table(MA_CSV, header = TRUE, sep = ";", row.names = 1)
+prs <- rownames(mas)
+prjnms <- paste(names(sprj), prj[names(sprj),"ShortName"], sep = "-")
+prjNmsAssoc <-
+    setNames(names(sprj),prjnms)
+
+runLogbuchApp(
+    list(
+        ui = logbuchUI(cfg[["logo-img"]], prs = prs, prjNmsAssoc = prjNmsAssoc)
+       ,server = logbuchServer(WD_CSV, DB_CSV, PRJ_CSV)
+        )
+    )
+
