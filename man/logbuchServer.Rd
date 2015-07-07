@@ -1,28 +1,26 @@
-\name{ sumSubProjects }
-\alias{ sumSubProjects }
+\name{ logbuchServer }
+\alias{ logbuchServer }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    sum hours of subprojects and concat desc
+    Provider of the logbuch server
 }
 \description{
     
 }
 \usage{
-    sumSubProjects(x, projCol, subProjCol, timeCol, descCol NULL)
+    logbuchServer(WD_CSV, DB_CSV, PRJ_CSV)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    	\item{x}{data.frame from wdlog-file}
-	\item{projCol}{column with project-names}
-	\item{subProjCol}{column with subproject-names}
-	\item{timeCol}{column with hours}
-	\item{descCol NULL}{column with description}
+    	\item{WD_CSV}{filepath to wdlog-data}
+	\item{DB_CSV}{filepath to www-csv-data}
+	\item{PRJ_CSV}{filepath to project-data}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-    data.frame with summed subprojects
+    function suitable for the server.R app
 }
 \references{
 %% ~put references to the literature/web site here ~

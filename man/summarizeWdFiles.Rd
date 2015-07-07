@@ -2,7 +2,7 @@
 \alias{ summarizeWdFiles }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    summarizeWdFilessummarize workdays
+    summarize workdays
 }
 \description{
     
@@ -12,7 +12,7 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{xs}{vector with workday-files}
+    	\item{xs}{vector with workday-files}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

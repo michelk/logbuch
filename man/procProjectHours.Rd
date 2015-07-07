@@ -2,7 +2,7 @@
 \alias{ procProjectHours }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    procProjectHoursProcess project-hours
+    Process project-hours
 }
 \description{
     
@@ -12,7 +12,7 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{x}{Data frame with hours worked}
+    	\item{x}{Data frame with hours worked}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

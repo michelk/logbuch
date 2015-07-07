@@ -9,6 +9,7 @@ opt_spec <- matrix(c(
   , 'to'     , 't', 1, "character", "Ending Time"
   , 'format' , 'm', 1, "character", "Time format (default: '%Y-%m-%d')"
   , 'subject', 's', 0, "logical"  , "Should the subjects be appended"
+  , 'sum', 'a',0, "logical"  , "Should categrories be summed up; only if --subject"
    ), ncol = 5, byrow = TRUE)
 
 # Process command-line arguments
@@ -18,15 +19,20 @@ if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
     cat(getopt(spec = opt_spec, usage = TRUE, command = "extractProjectHours"))
     q(status=0)
 }
-#opt<- list(
-#    pattern = "Lim"
-#   ,from = "2013-12-01"
-#   ,to = "2014-04-01"
-#)
+##opt<- list(
+##    pattern = "Giessen"
+##   ,dir = "~/logbuch"
+##   ,from = "2015-01-01"
+##   ,to = "2015-03-30"
+##   ,subject = TRUE
+##   ,sum = TRUE
+##)
 if (is.null(opt$format)) opt$format <- '%Y-%m-%d'
 if (is.null(opt$dir)) opt$dir <- '.'
 if (is.null(opt$from)) stop("Please specify time when to start looking")
 if (is.null(opt$to)) opt$to <- format(Sys.time(), "%Y-%m-%d")
+if (is.null(opt$subject)) opt$subject <- FALSE
+if (is.null(opt$sum)) opt$sum <- FALSE
 
 require("logbuch", quietly = TRUE)
 wdf <-
@@ -36,33 +42,46 @@ wdf <-
    ,as.POSIXct(opt$to)
     )
 
-sm <- summarizeWdFiles(wdf)
-i <- grep(opt$pattern, names(sm))
-sm.list <-
-    apply(
-    sm, 1, function (r) {if (all(sapply(r[i], function(x) x == 0))) NULL else r[i]}
-    )
-sm.df <- do.call(rbind, sm.list[!sapply(sm.list, is.null)])
-if (!is.null(opt$subject) && length(i) > 1)
-    error("When printing subjects, there could only be one project selected")
 if (!is.null(opt$subject))
 {
-  p <- colnames(sm.df)
-  sbjs <-
-    sapply(
-        rownames(sm.df), function(n)
-        {
-          f <- wdf[grep(n,wdf)]
-          dd <- readDayFile(f)
-          dd@subject[which(dd@topic == p)]
-        }
-        )
-  odf <- data.frame(p = sm.df, Arbeit = sbjs)
-  cat(paste(c("Date", names(odf)), collapse = ", "), "\n")
-  write.table(
-     odf
-    ,quote = FALSE, sep = ",", col.names = FALSE)
+  dd <-
+    do.call(rbind
+           ,lapply(wdf, function(f)
+             {
+               dd <- readDayFile(f, subProj = TRUE)
+               i <-  grep(opt$pattern,dd$Proj)
+               if (length(i) == 0)
+                 NULL
+               else
+                 cbind(dd[i,]
+                     , Date = sub("\\.wdlog", "", basename(f)))
+             }
+                   )
+            )
+  odf <-
+  {
+    if (opt$sum && opt$subject)
+      {
+        aggregate(Time ~ SubProj
+                 ,data = dd
+                 ,sum)
+      }
+    else
+      dd
+  }
+  write.table(odf ,quote = FALSE, sep = ";", row.names = FALSE)
 } else
+  {
+    sm <- summarizeWdFiles(wdf)
+    i <- grep(opt$pattern, names(sm))
+    if (!is.null(opt$subject) && length(i) > 1)
+      error("When printing subjects, there could only be one project selected")
+    sm.list <-
+      apply(
+        sm, 1, function (r) {if (all(sapply(r[i], function(x) x == 0))) NULL else r[i]}
+        )
+    sm.df <- do.call(rbind, sm.list[!sapply(sm.list, is.null)])
     print(sm.df)
+  }
 
 q(status = 0)

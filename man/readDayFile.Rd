@@ -2,7 +2,7 @@
 \alias{ readDayFile }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    readDayFileRead in a day record file (`.wdlog`)
+    Read in a day record file (`.wdlog`)
 }
 \description{
       contents should look like:
@@ -15,8 +15,8 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{x}{character; filepath to day record-file with '.wdlog' ending;}
-\item{subProj FALSE}{should subprojects be kept seperated}
+    	\item{x}{character; filepath to day record-file with '.wdlog' ending;}
+	\item{subProj FALSE}{should subprojects be kept seperated}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

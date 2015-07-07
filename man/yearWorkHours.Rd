@@ -2,7 +2,7 @@
 \alias{ yearWorkHours }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    yearWorkHoursCalculate year hours
+    Calculate year hours
 }
 \description{
     
@@ -12,9 +12,9 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{year}{year to calculate (eg. '2014')}
-\item{ hours}{hours to work per day}
-\item{ sumHours TRUE}{should hours get summed}
+    	\item{year}{year to calculate (eg. '2014')}
+	\item{ hours}{hours to work per day}
+	\item{ sumHours TRUE}{should hours get summed}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

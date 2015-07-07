@@ -1,28 +1,31 @@
-\name{ sumSubProjects }
-\alias{ sumSubProjects }
+\name{ subsetAndIntegrate }
+\alias{ subsetAndIntegrate }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    sum hours of subprojects and concat desc
+    Subset and integrate dataset
 }
 \description{
     
 }
 \usage{
-    sumSubProjects(x, projCol, subProjCol, timeCol, descCol NULL)
+    subsetAndIntegrate(dd, prs na, prj na, from, to, unit, details FALSE, na "Keine Wahl")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    	\item{x}{data.frame from wdlog-file}
-	\item{projCol}{column with project-names}
-	\item{subProjCol}{column with subproject-names}
-	\item{timeCol}{column with hours}
-	\item{descCol NULL}{column with description}
+    	\item{dd}{data.frame}
+	\item{prs na}{character: Person}
+	\item{prj na}{character: ProjectNb}
+	\item{from}{date: from}
+	\item{to}{date: to}
+	\item{unit}{time unit to integrate}
+	\item{details FALSE}{logical: subproject detail}
+	\item{na "Keine Wahl"}{Mark no-data-values}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-    data.frame with summed subprojects
+    data.frame
 }
 \references{
 %% ~put references to the literature/web site here ~

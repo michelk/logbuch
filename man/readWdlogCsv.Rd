@@ -1,28 +1,25 @@
-\name{ sumSubProjects }
-\alias{ sumSubProjects }
+\name{ readWdlogCsv }
+\alias{ readWdlogCsv }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    sum hours of subprojects and concat desc
+    Read wdlog-data in csv-format
 }
 \description{
     
 }
 \usage{
-    sumSubProjects(x, projCol, subProjCol, timeCol, descCol NULL)
+    readWdlogCsv(f, NBM 31)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    	\item{x}{data.frame from wdlog-file}
-	\item{projCol}{column with project-names}
-	\item{subProjCol}{column with subproject-names}
-	\item{timeCol}{column with hours}
-	\item{descCol NULL}{column with description}
+    	\item{f}{filepath to csv-file}
+	\item{NBM 31}{number of days per month}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-    data.frame with summed subprojects
+    data.frame
 }
 \references{
 %% ~put references to the literature/web site here ~

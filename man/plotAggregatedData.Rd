@@ -1,28 +1,24 @@
-\name{ sumSubProjects }
-\alias{ sumSubProjects }
+\name{ plotAggregatedData }
+\alias{ plotAggregatedData }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    sum hours of subprojects and concat desc
+    Plot aggregated data with 'integrateTime'
 }
 \description{
     
 }
 \usage{
-    sumSubProjects(x, projCol, subProjCol, timeCol, descCol NULL)
+    plotAggregatedData(tt)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    	\item{x}{data.frame from wdlog-file}
-	\item{projCol}{column with project-names}
-	\item{subProjCol}{column with subproject-names}
-	\item{timeCol}{column with hours}
-	\item{descCol NULL}{column with description}
+    	\item{tt}{data.frame}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-    data.frame with summed subprojects
+    ggplot
 }
 \references{
 %% ~put references to the literature/web site here ~

@@ -2,7 +2,7 @@
 \alias{ selectWdFiles }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    selectWdFilesSelect wdlog-files lying in certain range
+    Select wdlog-files lying in certain range
 }
 \description{
     
@@ -12,9 +12,9 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{fs}{wdlog-files}
-\item{from}{starting date-object}
-\item{to}{ending date-object}
+    	\item{fs}{wdlog-files}
+	\item{from}{starting date-object}
+	\item{to}{ending date-object}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

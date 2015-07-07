@@ -2,7 +2,7 @@
 \alias{ readWdlogFiles }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    readWdlogFilesRead a series of `.wdlog`-files
+    Read a series of `.wdlog`-files
 }
 \description{
     
@@ -12,7 +12,7 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{fs}{file-paths to `.wdlog`-files}
+    	\item{fs}{file-paths to `.wdlog`-files}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

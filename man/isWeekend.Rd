@@ -2,7 +2,7 @@
 \alias{ isWeekend }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    isWeekendCheck, if a day is on weekend
+    Check, if a day is on weekend
 }
 \description{
     
@@ -12,7 +12,7 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{d}{'Date'}
+    	\item{d}{'Date'}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

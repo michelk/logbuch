@@ -2,7 +2,7 @@
 \alias{ wdlogHeader }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    wdlogHeaderCreate a header-line for wdlog-files
+    Create a header-line for wdlog-files
 }
 \description{
     
@@ -12,7 +12,7 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{d}{Date object}
+    	\item{d}{Date object}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

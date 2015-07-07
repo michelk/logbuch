@@ -2,7 +2,7 @@
 \alias{ summarizeTus }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    summarizeTusSummarize a hours of a certain time-unit
+    Summarize a hours of a certain time-unit
 }
 \description{
     
@@ -12,9 +12,9 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{ts.df}{data-frame with hours per project per day}
-\item{ tu}{time-unit (could be 'week', 'month' or  'year)}
-\item{ hours_to_work}{hours to work per time-unit}
+    	\item{ts.df}{data-frame with hours per project per day}
+	\item{ tu}{time-unit (could be 'week', 'month' or  'year)}
+	\item{ hours_to_work}{hours to work per time-unit}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

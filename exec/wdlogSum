@@ -1,12 +1,20 @@
 #!/usr/bin/env Rscript
-args <- commandArgs(TRUE)
-f <- args[1]
+fs <- commandArgs(TRUE)
+
 require('methods', quietly = TRUE)
 require('logbuch', quietly = TRUE)
-require('MASS', quietly = TRUE)
 
-dd <-
-    readDayFile(f)
-df <-
-    data.frame(Date = dd@date, Project = dd@topic, Subject= dd@subject, Hours = dd@hours)
-write.matrix(as.matrix(df))
+for (f in fs)
+  {
+    dd <-
+      readDayFile(f)
+    df <-
+      data.frame(Date = dd@date, Project = dd@topic, Subject= dd@subject, Hours = dd@hours)
+
+    nil <-
+      apply(df,1, function(r) cat(sprintf("%7s %12s %50s %10.2f\n",
+                                          r[1], r[2], substr(r[3],1,50), as.numeric(r[4]))))
+    cat("\n")
+  }
+
+

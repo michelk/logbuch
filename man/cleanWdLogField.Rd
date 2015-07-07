@@ -2,7 +2,7 @@
 \alias{ cleanWdLogField }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    cleanWdLogFieldremove any whitespace or tab
+    remove any whitespace or tab
 }
 \description{
     
@@ -12,7 +12,7 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{x}{character: a field of day-record-file}
+    	\item{x}{character: a field of day-record-file}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

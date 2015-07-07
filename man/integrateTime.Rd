@@ -1,28 +1,26 @@
-\name{ sumSubProjects }
-\alias{ sumSubProjects }
+\name{ integrateTime }
+\alias{ integrateTime }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    sum hours of subprojects and concat desc
+    Integrate a time-series in time
 }
 \description{
     
 }
 \usage{
-    sumSubProjects(x, projCol, subProjCol, timeCol, descCol NULL)
+    integrateTime(dd, unit c("day", "week", "month", "year", "total")[2], FUN sum)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    	\item{x}{data.frame from wdlog-file}
-	\item{projCol}{column with project-names}
-	\item{subProjCol}{column with subproject-names}
-	\item{timeCol}{column with hours}
-	\item{descCol NULL}{column with description}
+    	\item{dd}{data.frame with Date, Person, ProjectName, ProjectNb, ProjectSubNb, Time}
+	\item{unit c("day", "week", "month", "year", "total")[2]}{time unit to integrate}
+	\item{FUN sum}{function for combination}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-    data.frame with summed subprojects
+    data.frame with integrated time-unit
 }
 \references{
 %% ~put references to the literature/web site here ~

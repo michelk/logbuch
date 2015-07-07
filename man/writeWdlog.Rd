@@ -2,7 +2,7 @@
 \alias{ writeWdlog }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    writeWdlogwrite data-frame into wdlog-format
+    write data-frame into wdlog-format
 }
 \description{
     
@@ -12,12 +12,12 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{dd}{data-frame with date, categorie, subject columns}
-\item{path}{root-directory where wdlog-files are located}
-\item{hours}{hours per day to be worked}
-\item{dir_struct}{directory date-format (see ?strptime) eg '2013/12/51'}
-\item{file_struct}{file date-format (see ?strptime) eg '2013-12-05.wdlog'}
-\item{col_sep}{column-seperator in wdlog-file}
+    	\item{dd}{data-frame with date, categorie, subject columns}
+	\item{path}{root-directory where wdlog-files are located}
+	\item{hours}{hours per day to be worked}
+	\item{dir_struct}{directory date-format (see ?strptime) eg '2013/12/51'}
+	\item{file_struct}{file date-format (see ?strptime) eg '2013-12-05.wdlog'}
+	\item{col_sep}{column-seperator in wdlog-file}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

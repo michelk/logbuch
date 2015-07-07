@@ -2,7 +2,7 @@
 \alias{ writeXlsx }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    writeXlsxwrapper function to write custom xlsx
+    wrapper function to write custom xlsx
 }
 \description{
     
@@ -12,8 +12,8 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{sheets}{data.frames}
-\item{ file}{filepath of output}
+    	\item{sheets}{data.frames}
+	\item{ file}{filepath of output}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

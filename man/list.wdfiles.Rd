@@ -2,7 +2,7 @@
 \alias{ list.wdfiles }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    list.wdfilesList workday-log-files
+    List workday-log-files
 }
 \description{
     
@@ -12,7 +12,7 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{path}{directory-path where to look for workday-log-files}
+    	\item{path}{directory-path where to look for workday-log-files}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

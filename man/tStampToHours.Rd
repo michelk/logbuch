@@ -2,7 +2,7 @@
 \alias{ tStampToHours }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    tStampToHoursconvert time stamps to durations
+    convert time stamps to durations
 }
 \description{
     
@@ -12,7 +12,7 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{x}{data.frame 10.00 -12.00 in first row}
+    	\item{x}{data.frame 10.00 -12.00 in first row}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

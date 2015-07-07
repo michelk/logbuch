@@ -2,7 +2,7 @@
 \alias{ wideToLongData }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    wideToLongDataconvert from long-format to wide
+    convert from long-format to wide
 }
 \description{
     

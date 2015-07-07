@@ -1,28 +1,30 @@
-\name{ sumSubProjects }
-\alias{ sumSubProjects }
+\name{ runLogbuchApp }
+\alias{ runLogbuchApp }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    sum hours of subprojects and concat desc
+    run the logbuch server
 }
 \description{
     
 }
 \usage{
-    sumSubProjects(x, projCol, subProjCol, timeCol, descCol NULL)
+    runLogbuchApp(app, port 3333, host, project_csv NULL, staff_csv NULL, data_sources NULL, logo_img NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    	\item{x}{data.frame from wdlog-file}
-	\item{projCol}{column with project-names}
-	\item{subProjCol}{column with subproject-names}
-	\item{timeCol}{column with hours}
-	\item{descCol NULL}{column with description}
+    	\item{app}{either a directory with the application or list with ui and server}
+	\item{port 3333}{port to listen to}
+	\item{host}{if "127.0.0.1" only visible on localhost}
+	\item{project_csv NULL}{filepath to csv with project-data}
+	\item{staff_csv NULL}{filepath to csv with staff-data}
+	\item{data_sources NULL}{filepaths to data sources to use}
+	\item{logo_img NULL}{filepath to logo}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-    data.frame with summed subprojects
+    
 }
 \references{
 %% ~put references to the literature/web site here ~

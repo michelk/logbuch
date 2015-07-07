@@ -2,7 +2,7 @@
 \alias{ readProjConf }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    readProjConfread project configuration in yaml
+    read project configuration in yaml
 }
 \description{
     
@@ -12,7 +12,7 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{f}{file-path to yaml-file}
+    	\item{f}{file-path to yaml-file}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

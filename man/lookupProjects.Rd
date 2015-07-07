@@ -2,7 +2,7 @@
 \alias{ lookupProjects }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    lookupProjectslookup (sub-) projects number
+    lookup (sub-) projects number
 }
 \description{
     
@@ -12,8 +12,8 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{x}{data.frame generated with readWdlogFiles}
-\item{cnf}{named list with project configuration}
+    	\item{x}{data.frame generated with readWdlogFiles}
+	\item{cnf}{named list with project configuration}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

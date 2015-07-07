@@ -2,7 +2,7 @@
 \alias{ dfSumStat }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    dfSumStatcalculate row and column sums and append them
+    calculate row and column sums and append them
 }
 \description{
     
@@ -12,7 +12,7 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{x}{data.frame}
+    	\item{x}{data.frame}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

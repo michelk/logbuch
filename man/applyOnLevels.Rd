@@ -2,7 +2,7 @@
 \alias{ applyOnLevels }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    applyOnLevelsapply function on levels of data.frame
+    apply function on levels of data.frame
 }
 \description{
     
@@ -12,9 +12,9 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{x}{data.frame}
-\item{levelCol}{column with levels}
-\item{FUN}{function to apply to values (eg 'sum')}
+    	\item{x}{data.frame}
+	\item{levelCol}{column with levels}
+	\item{FUN}{function to apply to values (eg 'sum')}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

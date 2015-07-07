@@ -2,7 +2,7 @@
 \alias{ applyOnSecondLevel }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    applyOnSecondLevelgo over levels and apply certain function
+    go over levels and apply certain function
 }
 \description{
     
@@ -12,10 +12,10 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{x}{data.frame}
-\item{valueCol}{column with values to apply function to (length = 2)}
-\item{levelCols}{column names to go over levels}
-\item{FUN}{function to apply to last levels}
+    	\item{x}{data.frame}
+	\item{valueCol}{column with values to apply function to (length = 2)}
+	\item{levelCols}{column names to go over levels}
+	\item{FUN}{function to apply to last levels}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

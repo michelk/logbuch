@@ -2,7 +2,7 @@
 \alias{ plotWorkTs }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    plotWorkTsPlot a work-week data-frame
+    Plot a work-week data-frame
 }
 \description{
     
@@ -12,10 +12,10 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{plot.df}{data-frame with date as row-name and project as columns}
-\item{ what 'ts'}{which aspect to plot; could be either 'ts' or 'project'}
-\item{ hours}{hours to work per time unit}
-\item{ title_date}{date-string which should appear in the title}
+    	\item{plot.df}{data-frame with date as row-name and project as columns}
+	\item{ what 'ts'}{which aspect to plot; could be either 'ts' or 'project'}
+	\item{ hours}{hours to work per time unit}
+	\item{ title_date}{date-string which should appear in the title}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

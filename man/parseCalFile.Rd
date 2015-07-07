@@ -2,7 +2,7 @@
 \alias{ parseCalFile }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-    parseCalFileParse a unix `.cal`-file
+    Parse a unix `.cal`-file
 }
 \description{
     
@@ -12,10 +12,10 @@
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{file}{file-path}
-\item{year}{year the file refers to}
-\item{monthSep '/'}{month seperator}
-\item{rangeSep '-'}{range seperator}
+    	\item{file}{file-path}
+	\item{year}{year the file refers to}
+	\item{monthSep '/'}{month seperator}
+	\item{rangeSep '-'}{range seperator}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

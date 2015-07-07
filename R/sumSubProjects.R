@@ -25,7 +25,7 @@ sumSubProjects <-
                     if (!is.null(descCol))
                     {
                         ddf <-
-                            cbind(tdf, paste(g[,descCol], collapse = "; "))
+                            cbind(tdf, paste(g[,descCol], collapse = ", "))
                         names(ddf)[4] <- descCol
                         ddf
                     }
