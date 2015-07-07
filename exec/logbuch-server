@@ -45,8 +45,8 @@ PRJ_DIR <- cfg[["projects-dir"]]
 DB_CSV <- cfg[["db-csv"]]
 MA_CSV <- cfg[["staff-csv"]]
 
-prj <- readCsv(PRJ_CSV, row.names = 1)     # predefined projects
-sprj <- readSubPrjFs(PRJ_DIR)  # subprojects
+prj <- readCsv(PRJ_CSV, row.names = 1)  # predefined projects
+sprj <- readSubPrjFs(PRJ_DIR)           # subprojects
 mas <- read.table(MA_CSV, header = TRUE, sep = ";", row.names = 1)
 prs <- rownames(mas)
 prjnms <- paste(names(sprj), prj[names(sprj),"ShortName"], sep = "-")
