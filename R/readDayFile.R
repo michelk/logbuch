@@ -43,7 +43,7 @@ readDayFile <-
                     {
                         setNames(
                             data.frame(e[1,"Proj"], sum(e[,"Time"]),
-                                       paste(e[,"Desc"], collapse = ", ")),
+                                       paste(unique(e[,"Desc"]), collapse = ", ")),
                             c("Proj", "Time", "Desc"))
                     }
                         ))

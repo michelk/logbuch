@@ -46,7 +46,7 @@ wdf <-
    ,as.POSIXct(opt$to)
     )
 
-if (!is.null(opt$subject))
+if (opt$subject)
 {
   dd <-
     do.call(rbind
@@ -84,15 +84,17 @@ if (!is.null(opt$subject))
                             ,sum)
          ,'week' =
           {
-            cbind(
-              aggregate(Time ~ Proj + SubProj + Week
-                       ,data = transform(dd, Week =  format(Date, "%Y-%V"))
-                       ,sum)
-             ,Desc = 
-                aggregate(Desc ~ Proj + SubProj + Week
+            odf. <-
+              cbind(
+                aggregate(Time ~ Week + Proj + SubProj
                          ,data = transform(dd, Week =  format(Date, "%Y-%V"))
-                         ,function(x) paste(x, collapse = ","))[,4] 
-            )
+                         ,sum)
+               ,Desc = 
+                  aggregate(Desc ~ Week + Proj + SubProj
+                           ,data = transform(dd, Week =  format(Date, "%Y-%V"))
+                           ,function(x) paste(unique(x), collapse = ","))[,4] 
+              )
+            odf.[order(odf.$Week, odf.$Proj, odf.$SubProj),]
           }
           ,stop('Valid summing units are "total", "month", "week"')
         )
