@@ -10,7 +10,7 @@ selectWdFiles <-
     {
       s <- strsplit(x, "/")[[1]]
       d <- as.POSIXct(strsplit(s[length(s)], "\\.")[[1]][1])
-      d > from && d < to
+      d >= from && d <= to
     }
   Filter(f,fs)
 }                                       # ^ selection of wdlog-files

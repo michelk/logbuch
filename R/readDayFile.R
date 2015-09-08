@@ -13,9 +13,12 @@ readDayFile <-
     dte <-                # date is defined in file-name et 2014-03-27
         sub(".wdlog", "", basename(x))
     dd. <-
+      tryCatch(
         read.table(
             x, col.names = COLS,
             sep = "|", skip = 1, stringsAsFactors = FALSE)
+        ,error = function(e) stop("Couldn't read file '", x, "'.\n\n",e)
+      )
     if (nrow(dd.) == 0)
         return(NULL)
     dd <-         # remove any whitespace/tab except of desc
