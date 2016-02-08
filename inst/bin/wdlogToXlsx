@@ -43,30 +43,30 @@ odd <- sumSubProjHoursWithoutNmb(odd_, cnf)
 oddm <- odd[,"Month"]                 # Months
 mns <- levels(factor(oddm))
 md <-                               # month-data
-    setNames(
-        lapply(
-            mns, function(m)
-        {
-            dd. <- odd[oddm == m,]
-            dd_ <-                   # order and skip worker column
-                dd.[order(dd.$ProjNb, dd.$SubProjNb),-1]
-            dd.na <- dd_[is.na(dd_$SubProjNb),]
-            dd <-      # deal with subproj-NA values
-                rbind(
-                      dd_[!is.na(dd_$SubProjNb),]
-                     ,dd.na[order(as.numeric(as.character(dd.na$ProjNb))),]
-                      )
-            ## To some statistics
-            ir <- 6:ncol(dd)
-            dd. <-
-                cbind(dd, Total = rowSums(dd[,ir], na.rm = TRUE))
-            rbind(
-                dd.,
-                Total = c(rep(NA, 5),
-                colSums(dd.[,c(ir, ncol(dd.))], na.rm = TRUE)))
-        }
-            )
-        ,mns)
+  setNames(
+    lapply(
+      mns, function(m)
+      {
+        dd. <- odd[oddm == m,]
+        dd_ <-                   # order and skip worker column
+          dd.[order(dd.$ProjNb, dd.$SubProjNb),-1]
+        dd.na <- dd_[is.na(dd_$SubProjNb),]
+        dd <-      # deal with subproj-NA values
+          rbind(
+            dd_[!is.na(dd_$SubProjNb),]
+           ,dd.na[order(as.numeric(as.character(dd.na$ProjNb))),]
+          )
+        ## To some statistics
+        ir <- 6:ncol(dd)
+        dd. <-
+          cbind(dd, Total = rowSums(dd[,ir], na.rm = TRUE))
+        rbind(
+          dd.,
+          Total = c(rep(NA, 5),
+                    colSums(dd.[,c(ir, ncol(dd.))], na.rm = TRUE)))
+      }
+    )
+   ,mns)
 
 total. <-
     dfSumStat(procWorkerHours(wideToLongData(odd_))[[1]])

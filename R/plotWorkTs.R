@@ -14,12 +14,10 @@ plotWorkTs <-
 
      plot_data <-  # data to plot for a timeseries (ts) or projects
          list(
-              'ts' = ggplot(plot.df
-                          , aes(x = Date, y = Hours, fill = Projects))
-            , 'project' = ggplot(plot.df
-                               , aes(x = Projects, y = Hours, fill = Date))
+              'ts' = function(x) ggplot(x , aes(x = Date, y = Hours, fill = Projects))
+            , 'project' = function(x) ggplot(x , aes(x = Projects, y = Hours, fill = Date))
          )
-     plot_data[[what]]  +
+     plot_data[[what]](plot.df)  +
         geom_bar(stat = "identity") +
         geom_hline(yintercept = hours) +
         ggtitle(

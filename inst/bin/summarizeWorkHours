@@ -33,29 +33,29 @@ writeSumCsv <-
 
 for (x in names(opt))
 {
-    log_files <-         # recursive list with workdays-log-files
-        list.wdfiles(opt[[x]])
-    workdays.summed <- # workhours per project and day (data-frame)
-        summarizeWdFiles(log_files)
-    writeSumCsv(                   # write csv-out
-        workdays.summed
-       ,file.path(opt[[x]], 'TS.csv')
-        )
-    out.dfs <- # list of two data-frames: time-series and project
-        summarizeTus(
-            ts.df = workdays.summed
-            ,tu = x
-            ,hours_to_work = hours_to_work[[x]]
-            )
-    lapply(names(out.dfs)
-           , function(y)
+  log_files <-         # recursive list with workdays-log-files
+    list.wdfiles(opt[[x]])
+  workdays.summed <- # workhours per project and day (data-frame)
+    summarizeWdFiles(log_files)
+  writeSumCsv(                   # write csv-out
+    workdays.summed
+   ,file.path(opt[[x]], 'TS.csv')
+  )
+  out.dfs <- # list of two data-frames: time-series and project
+    summarizeTus(
+      ts.df = workdays.summed
+     ,tu = x
+     ,hours_to_work = hours_to_work[[x]]
+    )
+  lapply('ts'                           ##names(out.dfs)  # disable 'project' for now
+       , function(y)
        {
-           p <- plot(out.dfs[[y]])
-           ggsave(p, filename = file.path(opt[[x]] , out_file_names[[y]])
-                  , width = 12, height = 8.5
-                  )
+         p <- plot(out.dfs[[y]])
+         ggsave(p, filename = file.path(opt[[x]] , out_file_names[[y]])
+              , width = 12, height = 8.5
+                )
        }
-           )
+       )
 }
 
 q(status = 0)
