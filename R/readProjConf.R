@@ -16,7 +16,7 @@ readProjConf <-
             class(x)
             ,'list' =
                 new('ProjConf',
-                    name = xn, id = x$nb, sb = x$sb)
+                    name = xn, id = x$nb, sb = x$sb, client = x$client)
             , new('ProjConf', name = xn, id = x)
             )
     }

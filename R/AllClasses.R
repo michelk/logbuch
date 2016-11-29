@@ -4,6 +4,7 @@ setClass(
         name = "character"    # ^ name of project
        ,id   = "character"    # ^ id
        ,sb   = "list"     # ^ named list with name and number
+       ,client = "character" # ^ Kunde
         )
     )
 setClass(

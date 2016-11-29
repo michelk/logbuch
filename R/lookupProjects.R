@@ -8,12 +8,11 @@ lookupProjects <-
   do.call(
     rbind,
     lapply(
-      seq_len(nrow(x))
-    , function(i)
+      seq_len(nrow(x)), function(i)
     {
       r <- x[i,]
-      nm <- as.character(r[,4])
-      sm <- as.character(r[,5])
+      nm <- as.character(r$Proj)
+      sm <- as.character(r$SubProj)
       ns <-          # project-and subproject number
         {
           if ( nm %in% names(cnf))
@@ -23,7 +22,7 @@ lookupProjects <-
                 sm %in% names(cnf[[nm]]@sb))
               list(n, cnf[[nm]]@sb[[sm]])
             else
-              list(n, NA)
+              list(nm, NA)
           }
           else
             list(NA, NA)

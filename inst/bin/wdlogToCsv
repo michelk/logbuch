@@ -2,12 +2,15 @@
 # | Looks recursively for .wdlog-files and converts them to csv (stdout)
 ## * Command-line parsing
 require('getopt', quietly = TRUE)
-opt_spec <- matrix(c(
-     'help'      ,'h', 0, "logical"  , "Getting help"
-    ,'dir'       ,'d', 1, "character", "Directory to look for wdlog-files"
-    ,'worker'    ,'w', 1, "character", "Optional name of worker; added as column"
-    ,'projconf'  ,'p', 1, "character", "Optional filepath to project-configuration"
-   )       , ncol = 5    , byrow = TRUE)
+opt_spec <-
+  matrix(c(
+    'help'      ,'h', 0, "logical"  , "Getting help"
+   ,'dir'       ,'d', 1, "character", "Directory to look for wdlog-files"
+   ,'worker'    ,'w', 1, "character", "Optional name of worker; added as column"
+   ,'projconf'  ,'p', 1, "character", "Optional filepath to project-configuration"
+   ,'encoding'  ,'e', 1, "character", "Output Encoding"
+   ,'sumweeks', 's', 0, 'logical', 'Should weeks get summed up'
+  )       , ncol = 5    , byrow = TRUE)
 
 # Process command-line arguments
 opt <- getopt(spec = opt_spec)
@@ -19,12 +22,14 @@ if ( !is.null(opt$help) || length(commandArgs(trailingOnly = TRUE)) == 0 )
     cat(getopt(spec = opt_spec, usage = TRUE, command = "wdlogToCsv"))
     q(status=0)
 }
+if (is.null(opt$encoding)) opt$encoding <- ''
+if (is.null(opt$sumweeks)) opt$sumweeks <- FALSE
 suppressPackageStartupMessages(require('logbuch', quietly = TRUE))
-require('reshape2', quietly = TRUE)
+require('magrittr', quietly = TRUE)
 require('yaml',  quietly = TRUE)
 require('methods',  quietly = TRUE)
 
-projConf <-           # project-configuration (mapping name to number)
+cfg <-           # project-configuration (mapping name to number)
 {
     if (!is.null(opt$projconf))
         readProjConf(opt$projconf)
@@ -32,23 +37,56 @@ projConf <-           # project-configuration (mapping name to number)
         NULL
 }
 
-fs <-
-    list.files(opt$dir, "\\.wdlog$", recursive = TRUE, full.names = TRUE)
-dd <- readWdlogFiles(fs)
+fs <- list.files(opt$dir, "\\.wdlog$", recursive = TRUE, full.names = TRUE)
 
-odd. <-                                  # output-table
-    cbind(
-        Worker = {if (!is.null(opt$worker)) opt$worker else NA}
-       ,dd)
-odd <-
-{
-    if (!is.null(opt$projconf))
-        lookupProjects(odd., projConf)
+dd <-
+  readWdlogFiles(fs, wide=FALSE) %>%
+  subset(!is.na(Time) & Proj != "Feiertag" )
+
+ood <-
+  do.call(
+    rbind
+   ,lapply(seq_len(nrow(dd)), function(i)
+   {
+     r <- dd[i,]
+     p <- as.character(r$Proj)
+     a <- as.character(r$SubProj)
+     pc <- if (p %in% names(cfg)) cfg[[p]] else NULL
+
+     data.frame(
+       Datum = r$Date #format(r$Date, format = "%d.%m.%Y")
+      ,Mitarbeiter = opt$worker
+      ,Kunde = if (!is.null(pc)) pc@client else NA
+      ,Projekt = if (!is.null(pc)) paste(pc@id, pc@name, sep = "_") else p
+      ,Aktivität = if (!is.null(pc) && a %in% names(pc@sb)) pc@sb[[a]] else a
+      ,Stunden = r$Time
+      ,Bezeichnung = as.character(r$Desc)
+      ,stringsAsFactors=FALSE
+     )
+   }
+   )
+  )
+outdf <-
+  {
+    if (!opt$sumweeks)
+      ood
     else
-        odd.
-}
-# TODO: mapping project-name to number
-write.table(
-    odd,
-    col.names = FALSE, row.names = FALSE, quote = FALSE,
-    sep = ";", na = "")
+    {
+      ooo <- transform(ood, KW=  format(Datum, "%Y-%V"), stringsAsFactors=FALSE)
+      kkk <-
+        cbind(
+          aggregate(Stunden ~ KW + Projekt + Aktivität
+                   ,data = ooo
+                   ,sum)
+         ,Bezeichnung =
+            aggregate(Bezeichnung ~ KW + Projekt + Aktivität
+                     ,data = ooo
+                     ,function(x) paste(unique(x), collapse = ","))[,4]
+        )
+      kkk[order(kkk$KW, kkk$Projekt, kkk$Aktivität),]
+    }
+  }
+
+write.table(outdf, sep = ";", row.names = FALSE, na = "", fileEncoding=opt$encoding)
+
+

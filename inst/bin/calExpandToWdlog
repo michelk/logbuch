@@ -4,15 +4,15 @@ suppressPackageStartupMessages(library("optparse"))
 require('logbuch', quietly = TRUE)
 option_list <- list(
     make_option(c("-y", "--year"), type = "character", default = format(Sys.Date(), "%Y"),
-                help = "Root-directory where wdlog-files are located [default %default]")
+                help = "Year to be processed [default %default]")
    ,make_option(c("-d", "--directory"), type = "character", default = '.',
                 help = "Root-directory where wdlog-files are located [default %default]")
-   ,make_option(c("-t", "--time"), type = "numeric", default = 6.8,
+   ,make_option(c("-t", "--time"), type = "numeric", default = 6.72,
                 help = "Hours per day to be worked [default %default]")
     )
 parser <- OptionParser(usage = "%prog [options] file.cal", option_list=option_list)
 
-arguments <- parse_args(parser, positional_arguments = 1)
+arguments <- parse_args(parser, positional_arguments = TRUE)
 opt <- arguments$options
 file <- arguments$args
 if( file.access(file) == -1) {

@@ -1,11 +1,14 @@
 readWdlogFiles <-
     function                            # ^ Read a series of `.wdlog`-files
 (
-    fs                                  # ^ file-paths to `.wdlog`-files
+  fs                               # ^ 'character': file-paths to `.wdlog`-files
+ ,wide =                           # ^ 'logical': wide output format
+   TRUE
+
 )
 {
   require('reshape2', quietly = TRUE)
-  fpToDate <- function(f) as.POSIXct(sub( "\\.wdlog$", "", basename(f)))
+  fpToDate <- function(f) as.POSIXct(sub( "\\.wdlog$", "", basename(f)), tz = "UTC")
   dateToFp <- function(d) paste(as.character(d), "wdlog", sep = ".")
 
   bfs <- basename(fs)
@@ -37,11 +40,15 @@ readWdlogFiles <-
             }
           cbind(
             data.frame(
+              Date = d,
               Year = as.numeric(format(d, "%Y")),
               Month = months.abbr.de[[as.numeric(format(d, "%m"))]],
               Day = format(d, "%d")
             ), dd)
         }
       ))
-  dcast(dd., Year + Month + Proj + SubProj ~ Day, value.var = "Time")
+  if (wide)
+    dcast(dd., Year + Month + Proj + SubProj ~ Day, value.var = "Time")
+  else
+    dd.
 }                             # ^ Data frame with hours worked per day
