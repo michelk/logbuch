@@ -3,7 +3,7 @@ kTotalFileName <- "Total.txt"
 kTsFileName <- "TS.txt"
 kTsPdfName <- "TS.pdf"
 kProjPdfName <- "Projects.pdf"
-kWeekHoursToWork <- 34
+kWeekHoursToWork <- 33.6
 kWeekDaysPerWeek <- 5
 
 months.abbr.de <-

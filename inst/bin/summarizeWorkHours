@@ -6,9 +6,9 @@ es = lapply(pkgs, function(x)suppressMessages(require(x, quietly = TRUE, charact
 opt <- procCli(commandArgs(TRUE))
 
 #setwd("~/logbuch")    # Development
-#opt <- list(week = "2014/03/12",
-#            month = "2014/03",
-#            year = "2014"
+#opt <- list(week = "2016/12/52",
+#            month = "2016/12",
+#            year = "2016"
 #            )
 out_file_names <-
     list(
