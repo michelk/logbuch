@@ -1,0 +1,35 @@
+#!/bin/bash
+# | Create a template and edit a wdlog-file
+
+[[  $1 == "-h"  || $1 == "--help" ]] && 
+{
+    echo "Create a template or edit a weekly todo-file (WDLOG_DIR has to set in bashrc)"
+    echo ""
+    echo "Usage: viwdlog"
+    exit 0
+}
+
+[ -z ${WDLOG_DIR} ] && 
+{
+    echo "Variable WDLOG_DIR not set in .{zsh,bash}rc" 1>&2
+    exit 1
+}
+
+[ -z ${EDITOR} ] && 
+{
+    echo "EDITOR variable not set" 1>&2
+    exit 1
+}
+
+    
+week_todo_file=${WDLOG_DIR}/$(date +%Y)/$(date +%m)/$(date +%V)/todo.org
+
+
+if [[ ! -e ${day_log_file}  ]]; then
+    mkdir -p $(dirname ${day_log_file})
+cat << EOF > ${day_log_file}
+* TODO
+EOF
+fi
+
+emacsclient -t ${week_todo_file}
