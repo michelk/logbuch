@@ -28,7 +28,7 @@ writeSumCsv <-
 {
     x. <- cbind(x, Summe = rowSums(x))
     x.. <- rbind(x., Summe = colSums(x.))
-    write.csv(x.., file = file, quote = FALSE)
+    write.table(x.., file = file, quote = FALSE, sep = ";", col.names = NA)
 }
 
 for (x in names(opt))

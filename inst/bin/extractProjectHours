@@ -120,7 +120,7 @@ if (opt$subject)
     else
       odf.
   }
-  write.table(odf ,quote = FALSE, sep = ";", row.names = FALSE, na="")
+  write.table(odf ,quote = TRUE, sep = ";", row.names = FALSE, na="")
 } else
   {
     sm <- summarizeWdFiles(wdf)

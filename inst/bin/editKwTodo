@@ -25,9 +25,9 @@
 week_todo_file=${WDLOG_DIR}/$(date +%Y)/$(date +%m)/$(date +%V)/todo.org
 
 
-if [[ ! -e ${day_log_file}  ]]; then
-    mkdir -p $(dirname ${day_log_file})
-cat << EOF > ${day_log_file}
+if [[ ! -e ${week_todo_file}  ]]; then
+    mkdir -p $(dirname ${week_todo_file})
+cat << EOF > ${week_todo_file}
 * TODO
 EOF
 fi

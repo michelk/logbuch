@@ -5,6 +5,7 @@ writeXlsx <-
   , file                                # ^ filepath of output
 )
 {
+    require('xlsx',  quietly = TRUE)
     writeXlsx. <- function(x,f,nm, append)
         write.xlsx(x, file = f,
             sheetName = nm, row.names = FALSE, showNA = FALSE, append = append)
